@@ -26,6 +26,8 @@ jobs:
 
       - name: Build and Push Docker imgae
         run: |-
+          pwd
+          dir
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
           docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
