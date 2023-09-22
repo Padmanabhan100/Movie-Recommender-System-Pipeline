@@ -1,5 +1,7 @@
-./artifacts
-./movieflix/movieflix_user/.env
-./movieflix/movieflix/.env
-./movieflix/all_movies.json
-./movieflix/manual_artifacts
+artifacts
+movieflix/movieflix_user/.env
+movieflix/movieflix/.env
+movieflix/all_movies.json
+movieflix/manual_artifacts
+movieflix/manual_artifacts/similarity.npy
+movieflix/manual_artifacts/movie_similarity_id_mapping.csv
