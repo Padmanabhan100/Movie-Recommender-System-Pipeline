@@ -5,8 +5,8 @@ on:
     branches: [ "master" ]
 
 env:
-  PROJECT_ID: zeta-post-398113 # TODO: update Google Cloud project id
-  GAR_LOCATION: audio_mnist_app # TODO: update Artifact Registry location
+  PROJECT_ID: zippy-bee-332908 # TODO: update Google Cloud project id
+  GAR_LOCATION: movieflix # TODO: update Artifact Registry location
   SERVICE: my-cloud-run-service # TODO: update Cloud Run service name
   REGION: us-east1 # TODO: update Cloud Run service region
 
