@@ -26,10 +26,16 @@ jobs:
 
       - name: Build and Push Docker imgae
         run: |-
-          pwd
-          dir
+
+          echo "Authenticating Docker"
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+          echo "Authenticated Docker done!"
+
+          echo "Building Image"
           docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          echo "Image Built Successfully!"
+
+
           docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   Continuous-Deployment:
