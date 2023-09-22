@@ -7,7 +7,7 @@ env:
   PROJECT_ID: zippy-bee-332908 # TODO: update Google Cloud project id
   GAR_LOCATION: movieflix # TODO: update Artifact Registry location
   SERVICE: my-cloud-run-service # TODO: update Cloud Run service name
-  REGION: asia-south1 # TODO: update Cloud Run service region
+  REGION: asia-south1 # TODO: update Cloud Run service region.
   IMAGE_NAME: movieflix
 
 jobs:
