@@ -15,11 +15,5 @@ setup(
     packages=['src'],
     license='GNU',
     python_requires=">=3.6",
-    install_requires = [
-        'dvc',
-        'dvc[gdrive]',
-        'dvc[s3]',
-        'pandas',
-        'scikit-learn'
-    ]
+    
 )

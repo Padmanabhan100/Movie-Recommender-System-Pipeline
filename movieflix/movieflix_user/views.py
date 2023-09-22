@@ -1,10 +1,8 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import pyrebase
 from django.core.paginator import Paginator
 from fuzzywuzzy import fuzz
 import json
-from django.http import JsonResponse
 import razorpay
 import datetime
 from django.conf import settings
@@ -266,13 +264,16 @@ def landing(request):
             # Load the content
             movies_by_genre = load_content(landing=True)
 
+            # Get the manual artifacts dir
+            manual_artifacts_dir =Path(__file__).resolve().parent.parent / 'manual_artifacts'
+
             # Load the similarity matrix and set as global variable
             global similarity
-            similarity = np.load('manual_artifacts/similarity.npy')
+            similarity = np.load(os.path.join(manual_artifacts_dir, 'similarity.npy'))
 
             # Load the movie_id and similarity mappings
             global movie_sim_map 
-            movie_sim_map = pd.read_csv('manual_artifacts/movie_similarity_id_mapping.csv')
+            movie_sim_map = pd.read_csv(os.path.join(manual_artifacts_dir, 'movie_similarity_id_mapping.csv'))
                 
             # Show the landing page
             return render(request, 'user/index.html', {"movies_by_genre":movies_by_genre})

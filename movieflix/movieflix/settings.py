@@ -19,7 +19,9 @@ RAZOR_KEY_SECRET = os.getenv('RAZOR_KEY_SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = True
+
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -31,8 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'movieflixapp',
-    'payment'
+    'corsheaders',
+    'movieflix_user',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -43,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'movieflix.urls'
@@ -50,7 +54,7 @@ ROOT_URLCONF = 'movieflix.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
