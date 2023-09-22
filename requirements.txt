@@ -1,0 +1,15 @@
+-e .
+
+# Data Versioning
+dvc
+dvc[gdrive]
+dvc[s3]
+
+# Data manipulation
+pandas
+scikit-learn
+
+# For env vars
+python-dotenv
+
+# For firebase

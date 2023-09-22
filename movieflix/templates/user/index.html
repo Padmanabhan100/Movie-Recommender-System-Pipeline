@@ -1,0 +1,174 @@
+<!-- index.html -->
+{% include 'user/navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EasyProduce</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/20f31187f2.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content-container">
+        <div
+          class="featured-content"
+          style="
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #151515),
+              url('image/feature_img3.webp');
+          "
+        >
+          <img
+            class="featured-title"
+            src="{% static 'image/feature_title4.png' %}"
+            alt=""
+          />
+          <p class="featured-desc">
+            A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.
+
+          </p>
+          <button class="featured-button">WATCH NOW</button>
+        </div>
+
+        <!-- New Release Container -->
+        <div class="movie-list-container">
+          <h1 class="movie-list-title">ACTION MOVIES</h1>
+          <div class="movie-list-wrapper">
+            <div class="movie-list">
+              {% for movie in movies_by_genre.action %}
+              <a
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+              >
+                <div class="movie-list-item">
+                  <img
+                    class="movie-list-item-img"
+                    src="{% static 'image/movie-img1.webp' %}"
+                    alt=""
+                  />
+                  <span class="movie-list-item-title">{{ movie.title }}</span>
+                  <p class="movie-list-item-desc">
+                    {{ movie.overview|slice:":100"}}...
+                  </p>
+                  <button class="movie-list-item-button">Watch</button>
+                </div>
+              </a>
+
+              {% endfor %}
+            </div>
+            <i class="fas fa-chevron-right arrow"></i>
+          </div>
+        </div>
+
+        <!-- New Release Container -->
+        <div class="movie-list-container">
+          <h1 class="movie-list-title">COMEDY MOVIES</h1>
+          <div class="movie-list-wrapper">
+            <div class="movie-list">
+              {% for movie in movies_by_genre.comedy %}
+              <a
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+              >
+                <div class="movie-list-item">
+                  <img
+                    class="movie-list-item-img"
+                    src="{% static 'image/movie-img1.webp' %}"
+                    alt=""
+                  />
+                  <span class="movie-list-item-title">{{ movie.title }}</span>
+                  <p class="movie-list-item-desc">
+                    {{ movie.overview|slice:":100"}}...
+                  </p>
+                  <button class="movie-list-item-button">Watch</button>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+            <i class="fas fa-chevron-right arrow"></i>
+          </div>
+        </div>
+        <div
+          class="featured-content"
+          style="
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #151515),
+              url('feature_img11.jpg');
+          "
+        >
+          <img
+            class="featured-title"
+            src="{% static 'image/feature_title6.png' %}"
+            alt=""
+          />
+          <p class="featured-desc">
+            When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.
+          </p>
+          <button class="featured-button">WATCH NOW</button>
+        </div>
+
+        <!-- New Release container -->
+        <div class="movie-list-container">
+          <h1 class="movie-list-title">ROMANCE MOVIES</h1>
+          <div class="movie-list-wrapper">
+            <div class="movie-list">
+              {% for movie in movies_by_genre.romance %}
+              <a
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+              >
+                <div class="movie-list-item">
+                  <img
+                    class="movie-list-item-img"
+                    src="{% static 'image/movie-img1.webp' %}"
+                    alt=""
+                  />
+                  <span class="movie-list-item-title">{{ movie.title }}</span>
+                  <p class="movie-list-item-desc">
+                    {{ movie.overview|slice:":100"}}...
+                  </p>
+                  <button class="movie-list-item-button">Watch</button>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+
+            <i class="fas fa-chevron-right arrow"></i>
+          </div>
+        </div>
+
+        <!-- New Release container -->
+        <div class="movie-list-container">
+          <h1 class="movie-list-title">ANIMATION MOVIES</h1>
+          <div class="movie-list-wrapper">
+            <div class="movie-list">
+              {% for movie in movies_by_genre.animation %}
+              <a
+                href="/user/movie_player/?title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+              >
+                <div class="movie-list-item">
+                  <img
+                    class="movie-list-item-img"
+                    src="{% static 'image/movie-img1.webp' %}"
+                    alt=""
+                  />
+                  <span class="movie-list-item-title">{{ movie.title }}</span>
+                  <p class="movie-list-item-desc">
+                    {{ movie.overview|slice:":100"}}...
+                  </p>
+                  <button class="movie-list-item-button">Watch</button>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+
+            <i class="fas fa-chevron-right arrow"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'script/app.js' %}"></script>
+  </body>
+</html>

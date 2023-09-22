@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Produce - Sign up</title>
+    <script src="https://kit.fontawesome.com/20f31187f2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+</head>
+<body>
+    <div class="navbar"></div>
+    <div class="navbar-container">
+        <div class="logo-container"><h1 class="logo">EasyProduce</h1></div>
+        <div class="menu-container">
+        </div>
+        
+        <div class="profile-container">
+            <!-- <img class="profile-picture" src="profile_picture1.jpg" alt="">
+            <div class="profile-text-container">
+                <span class="profile-text">Profile</span>
+                <i class="fas fa-caret-down"></i>
+            </div> -->
+
+            <!-- <div class="toggle">
+                <i class="fa-solid fa-moon toggle-icon"></i>
+                <i class="fa-solid fa-sun toggle-icon"></i>
+                <div class="toggle-ball"></div>
+            </div> -->
+
+
+        </div> 
+    </div>
+        <!-- <div class="sidebar">
+            <i class="left-menu-icon fas fa-home"></i>
+            <i class="left-menu-icon fas fa-bookmark"></i>
+            <i class="left-menu-icon fas fa-tv"></i>
+            <i class="left-menu-icon fas fa-hourglass-start"></i>
+            <i class="left-menu-icon fas fa-solid fa-plus"></i>
+            <i class=" left-menu-icon-bottom1 fas fa-gear"></i>
+            <i class=" left-menu-icon-bottom fas fa-arrow-right-from-bracket"></i>
+        </div> -->
+
+
+    <div class="container">
+        <div class="form-container-wrapper">
+            <form class="form-container" action="/user/post_renew/" method="post">
+                {% csrf_token %}
+                <div class="icon-container">
+                    <i class="fa-solid fa-user icon-user"></i>
+                </div>
+               
+
+                <h3>Choose a plan</h3>
+                <br>
+                <select name="plan" id="plan">
+                    <option class='text-style' value="199:1">1 month: ₹199</option>
+                    <option class='text-style' value="499:3">3 months: ₹499</option>
+                    <option class='text-style' value="999:12">Annual Plan: ₹999</option>
+                </select>
+
+                <!-- <div class="remember-forgot">
+                    <div>
+                        <input type="checkbox" id="cb">
+                        <label for="cb" class="lbl-remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot">Forgot Password</a>
+                </div> -->
+                <input type="submit" class="btn-login" value="Renew My Account">
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

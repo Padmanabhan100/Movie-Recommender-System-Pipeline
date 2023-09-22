@@ -1,0 +1,63 @@
+<!-- index.html -->
+{% include 'user/navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyProduce</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/20f31187f2.js" crossorigin="anonymous"></script>
+</head>
+<body style="background:black">
+                <!-- New Release Container -->
+                <div class="movie-list-container">
+                    <h1 class="movie-list-title" style="color:white">RESULT FOUND {{ page_obj.paginator.count }}</h1>
+                    <div class="movie-list-wrapper">
+                        <div class="movie-list">
+
+                            {% for movie in page_obj %}
+                            <a href="/user/movie_player/?id={{ movie.movie.id }}&title={{ movie.movie.title }}&cast={{ movie.movie.cast }}&movie_path={{ movie.movie.movie_path }}">
+                                <div class="movie-list-item">
+                                    <img class="movie-list-item-img" src="{% static 'image/movie-img1.webp' %}" alt="">
+                                    <span class="movie-list-item-title">{{ movie.movie.title }}</span>
+                                    <p class="movie-list-item-desc">{{ movie.movie.overview|slice:":100"}}...</p>
+                                        <button class="movie-list-item-button">Watch</button>
+                                </div>
+                            </a>
+
+                            {% endfor %}
+                        </div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                </div>
+
+
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                        <button type="button" class="btn btn dark"><a href="?page=1&searched_movie_title={{ searched_movie_title }}">&laquo; first</a></button>
+                        <button type="button" class="btn btn dark"><a href="?page={{ page_obj.previous_page_number }}&searched_movie_title={{ searched_movie_title }}">previous</a></button>
+                            
+                        {% endif %}
+                
+                
+                        {% if page_obj.has_next %}
+                        <button type="button" class="btn btn-btn dark"><a href="?page={{ page_obj.next_page_number }}&searched_movie_title={{ searched_movie_title }}">next</a></button>
+                        <button type="button" class="btn btn-btn dark"><a href="?page={{ page_obj.paginator.num_pages }}&searched_movie_title={{ searched_movie_title }}">last &raquo;</a></button>                            
+                        {% endif %}
+
+                        <span class="current-page" style="color:white">{{ page_obj.number }} Page out of {{ num_pages }}</span>
+                    </span>
+                </div>
+                
+                  
+            </div>
+        </div>
+        <script src="{% static 'script/app.js' %}"></script>
+</body>
+</html>

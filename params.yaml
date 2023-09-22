@@ -1,0 +1,35 @@
+model:
+  model_based:
+    project: similarity-movie-recommender-system
+    random_state: 42
+    train_size: 0.8
+    test_size: 0.2
+    
+  memory_based:
+    item_item_based:
+      project: similarity-movie-recommender-system
+      random_state: 42
+      train_size: 0.8
+      test_size: 0.2
+
+    user_user_based:
+      project: similarity-movie-recommender-system
+      random_state: 42
+      train_size: 0.8
+      test_size: 0.2
+
+data_source:
+  ratings:   "https://drive.google.com/uc?id=13avH15UI7rS4NwrKQd4cSfIbLdVtHOYO"
+  movies_metadata: "https://drive.google.com/uc?id=1GJRv9a-QR1YggxGDR-rPjsY-RF3JD2sw"
+
+
+artifacts:
+  artifacts_dir: artifacts
+  raw_local_data_dir: artifacts/raw_local_data_dir
+  clean_local_data_dir: artifacts/clean_local_data_dir
+  latest_model_dir: artifacts/latest_model_dir
+  model_metrics_dir: artifacts/model_metrics_dir
+  train_data_dir: artifacts/train_data_dir
+  test_data_dir: artifacts/test_data_dir
+  metrics_dir: artifacts/metrics_dir
+  datasets: [ratings.csv, movies_md.csv]

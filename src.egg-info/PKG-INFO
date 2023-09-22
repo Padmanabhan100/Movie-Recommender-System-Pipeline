@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: src
+Version: 0.0.1
+Summary: A pipeline for recommender system
+Home-page: https://github.com/Padmanabhan100/Movie-Recommender-System-Pipeline
+Author: paddy
+Author-email: paddyrolex10@gmail.com
+License: GNU
+Platform: UNKNOWN
+Requires-Python: >=3.6
+
+UNKNOWN
+

@@ -1,0 +1,5 @@
+./artifacts
+./movieflix/movieflix_user/.env
+./movieflix/movieflix/.env
+./movieflix/all_movies.json
+./movieflix/manual_artifacts
