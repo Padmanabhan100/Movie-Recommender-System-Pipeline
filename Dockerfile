@@ -23,4 +23,4 @@ RUN pip install -r requirements.txt
 EXPOSE 8080
 
 # Run the web app
-CMD ["python", "movieflix/manage.py", "runserver", "8080"]
+CMD ["python", "movieflix/manage.py", "runserver", "0.0.0.0:8080"]
