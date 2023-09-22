@@ -8,7 +8,7 @@ env:
   GAR_LOCATION: movieflix # TODO: update Artifact Registry location
   SERVICE: my-cloud-run-service # TODO: update Cloud Run service name
   REGION: asia-south1 # TODO: update Cloud Run service region.
-  IMAGE_NAME: movieflix
+  IMAGE_NAME: movieflix_image
 
 jobs:
   Continuous-Integration:
@@ -27,7 +27,7 @@ jobs:
       - name: Build and Push Docker imgae
         run: |-
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
-          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }} ./
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   Continuous-Deployment:
