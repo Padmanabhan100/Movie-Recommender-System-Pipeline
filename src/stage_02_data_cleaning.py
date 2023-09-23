@@ -20,8 +20,12 @@ def clean_data(path):
         # Get the absolute path of the dataset
         dataset_abs_path = f"{raw_local_data_dir}\{dataset}"
 
-        # Load the dataset into dataframe
-        df = pd.read_csv(dataset_abs_path) 
+        if dataset == 'movies_md.csv':
+            # Load the dataset into dataframe
+            df = pd.read_csv(dataset_abs_path, low_memory=False) 
+        else:
+            # Load the dataset into dataframe
+            df = pd.read_csv(dataset_abs_path) 
 
         # Append to dataframes list
         dataframes.append(df)

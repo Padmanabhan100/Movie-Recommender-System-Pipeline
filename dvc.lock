@@ -39,8 +39,8 @@ stages:
       size: 2438266
     - path: src/stage_02_data_cleaning.py
       hash: md5
-      md5: 63e10d781bfa03a2ad84cf882ea82d33
-      size: 2367
+      md5: a8c52dcbd6bc135052b3e5c39edbb8e1
+      size: 2544
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
