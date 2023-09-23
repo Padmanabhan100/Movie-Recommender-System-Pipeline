@@ -12,7 +12,8 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 import pickle
-from surprise import Dataset, Reader
+from django.views.decorators.csrf import csrf_exempt
+
 import traceback
 
 
@@ -46,9 +47,11 @@ auth = firebase.auth()
 database = firebase.database()
 
 # Create your views here.
+@csrf_exempt
 def signup(request):
     return render(request, 'user/signup.html')
 
+@csrf_exempt
 def post_signup(request):
     # Check if the request is a post request
     if request.method == 'POST':
@@ -222,6 +225,7 @@ def load_content(landing=False, search=False, movie_query='', personalized_recom
 
         return movies_list
 
+@csrf_exempt
 def signin(request):
     return render(request, 'user/signin.html')
 
@@ -260,6 +264,7 @@ def is_subscription_over(user_id):
         return False  # Handle any exceptions
     
 
+@csrf_exempt
 def post_signin(request):
     if request.method == 'POST':
         # Fetch email and password
@@ -414,6 +419,7 @@ def payment(request):
     except:
         return render(request, 'user/signin.html')
 
+@csrf_exempt
 def post_payment(request):
     # Get email and password from the session
     email = request.session['payment_data']['email']
