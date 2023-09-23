@@ -24,12 +24,12 @@ data_source:
 
 
 artifacts:
-  artifacts_dir: artifacts
-  raw_local_data_dir: artifacts/raw_local_data_dir
-  clean_local_data_dir: artifacts/clean_local_data_dir
-  latest_model_dir: artifacts/latest_model_dir
-  model_metrics_dir: artifacts/model_metrics_dir
-  train_data_dir: artifacts/train_data_dir
-  test_data_dir: artifacts/test_data_dir
-  metrics_dir: artifacts/metrics_dir
+  artifacts_dir: movieflix/artifacts
+  raw_local_data_dir: movieflix/artifacts/raw_local_data_dir
+  clean_local_data_dir: movieflix/artifacts/clean_local_data_dir
+  latest_model_dir: movieflix/artifacts/latest_model_dir
+  model_metrics_dir: movieflix/artifacts/model_metrics_dir
+  train_data_dir: movieflix/artifacts/train_data_dir
+  test_data_dir: movieflix/artifacts/test_data_dir
+  metrics_dir: movieflix/artifacts/metrics_dir
   datasets: [ratings.csv, movies_md.csv]

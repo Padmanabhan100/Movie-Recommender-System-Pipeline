@@ -15,8 +15,6 @@ def split_data(path, model, model_type):
     # Create the train data directory and test data directory
     create_dir([train_data_dir, test_data_dir])
 
-    
-
     # Get the path of the clean dataset
     clean_local_data_dir = config['artifacts']['clean_local_data_dir']
 
@@ -53,6 +51,14 @@ def split_data(path, model, model_type):
     save_local_df(train_data, train_data_dir, True, name='train.csv')
     save_local_df(test_data, test_data_dir, True, name='test.csv')
 
+
+def main(path='params.yaml', model='model_based', model_type=''):
+    try:
+        # Fetch the data according to the arguments passed
+        split_data(path =path ,model=model, model_type=model_type)
+    
+    except Exception as e:
+        raise e
 
 if __name__ == '__main__':
     # Initialize an argument parser object

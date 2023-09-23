@@ -11,6 +11,10 @@ import pandas as pd
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import pickle
+from surprise import Dataset, Reader
+import traceback
+
 
 # Load the .env file
 load_dotenv()
@@ -45,8 +49,6 @@ database = firebase.database()
 def signup(request):
     return render(request, 'user/signup.html')
 
-
-
 def post_signup(request):
     # Check if the request is a post request
     if request.method == 'POST':
@@ -76,7 +78,7 @@ def post_signup(request):
         return redirect("/user/payment")
     
     
-def load_content(landing=False, search=False, movie_query=''):
+def load_content(landing=False, search=False, movie_query='', personalized_recommendations=[], similar_recommendation=[]):
     # Check if all_movies.json file exists in the system
     if os.path.exists("all_movies.json"):
 
@@ -147,7 +149,7 @@ def load_content(landing=False, search=False, movie_query=''):
 
             if len(action_movies) == 20 and len(comedy_movies) == 20 and len(romance_movies) == 20 and len(animation_movies) == 20:
                 break
-
+        
 
         movies_by_genre = {
             "action": action_movies,
@@ -157,6 +159,46 @@ def load_content(landing=False, search=False, movie_query=''):
         }
 
         return movies_by_genre
+    
+    elif personalized_recommendations:
+        # Get all the recommendations movie data
+        recommended_movies = [movie for movie in movies if movie['id'] in personalized_recommendations]
+
+        # Return the list of recommendations
+        return recommended_movies
+    
+    elif similar_recommendation:
+       # Convert movie id to int
+        movie_id = int(similar_recommendation[0])
+
+        # Get the distances of all movies for the given movie
+        global similarity, movie_sim_map
+
+        # Get the id of the movie in similarity matrix
+        movie_id = movie_sim_map[movie_sim_map['id'] == movie_id].index[0]
+
+        # Get the distances of all the movies for the given movie id
+        distances = similarity[movie_id]
+
+        # Sort the distances in descending and get the first N recommendations
+        movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x:x[1])[1:10]
+
+        # Create a list of movie ids
+        recommendations = []
+
+        # Append the id of the movie to the list
+        for idx in movie_list:
+            # Convert similarity ids to movie ids
+            idx = movie_sim_map.iloc[idx[0]]
+
+            # Fetch the movie of the recommended id from the database
+            record = database.child('movie').child(f"{idx[0]}").get().val()
+
+            # Add it to recommendations list
+            recommendations.append(record)
+
+        # Return the list of recommendations
+        return recommendations
 
     elif search:
         # Empty list to store movies
@@ -248,7 +290,6 @@ def post_signin(request):
             # Set the session_id in the requests
             request.session['uid'] = str(session_id)
 
-             
 
             # Show the landing page if subscription is not finished
             return redirect('/user/landing')
@@ -267,6 +308,9 @@ def landing(request):
             # Get the manual artifacts dir
             manual_artifacts_dir =Path(__file__).resolve().parent.parent / 'manual_artifacts'
 
+            # Get the artifacts directory
+            artifacts_dir = Path(__file__).resolve().parent.parent / 'artifacts'
+
             # Load the similarity matrix and set as global variable
             global similarity
             similarity = np.load(os.path.join(manual_artifacts_dir, 'similarity.npy'))
@@ -274,15 +318,30 @@ def landing(request):
             # Load the movie_id and similarity mappings
             global movie_sim_map 
             movie_sim_map = pd.read_csv(os.path.join(manual_artifacts_dir, 'movie_similarity_id_mapping.csv'))
+
+
+            # Get user id to get personalized recommendations for the user
+            user_id = request.session['localId']
+
+            # Recommend movies ids
+            recommendations = get_personalized_recommendation(artifacts_dir=artifacts_dir, user_id=3)
+
+            # Fetch the recommended movies from db
+            recommendations = load_content(personalized_recommendations=recommendations)
+
+
+            # Print the recommended movies
+            print("Recommendations : ", recommendations)
                 
             # Show the landing page
-            return render(request, 'user/index.html', {"movies_by_genre":movies_by_genre})
+            return render(request, 'user/index.html', {"movies_by_genre":movies_by_genre, 'recommendations':recommendations})
         
         else:
             return redirect('/user/signin')
         
     except Exception as e:
-        print(e)
+        traceback.print_exc()
+        print("Exception from landing:", e)
         return render(request, 'user/signin.html')
     
 def logout(request):
@@ -380,6 +439,67 @@ def post_payment(request):
     return redirect('/user/signin')
 
 
+def get_personalized_recommendation(artifacts_dir=None, user_id=None, top_n=5):
+    # Load the model
+    model_path = os.path.join(artifacts_dir,"latest_model_dir", 'model.sav')
+
+    with open(model_path, 'rb') as model_file:
+        model = pickle.load(model_file)
+
+   
+   # Read the ratings data and movie meta data as dataframe
+    ratings_path = os.path.join(artifacts_dir,"raw_local_data_dir", "ratings.csv")
+    movie_md_data_path = os.path.join(artifacts_dir, "raw_local_data_dir", "movies_md.csv")
+    ratings = pd.read_csv(ratings_path)
+    movie_md = pd.read_csv(movie_md_data_path,low_memory=False)
+
+    # Select ratings data and metadata with vote count > 55
+    movie_md = movie_md[movie_md['vote_count']>55][['id','title']]
+
+    # IDs of movies with count more than 55
+    movie_ids = [int(x) for x in movie_md['id'].values]
+
+    # Select ratings of movies with more than 55 counts
+    ratings = ratings[ratings['movieId'].isin(movie_ids)]
+
+    # Reset Index
+    ratings.reset_index(inplace=True, drop=True)
+    
+    # Inititlize a reader object
+    #reader = Reader(line_format="user item rating", sep=',', rating_scale=(1, 5), skip_lines=1)
+    
+    # Inititlize a dataset object form dataframe
+    #data = Dataset.load_from_df(ratings[['userId', 'movieId', 'rating']], reader=reader)
+    
+    # creating an empty list to store the recommended product ids
+    recommendations = []
+    
+    # creating an user item interactions matrix 
+    user_movie_interactions_matrix = ratings.pivot(index='userId', columns='movieId', values='rating')
+    
+    # extracting those product ids which the user_id has not interacted yet
+    non_interacted_movies = user_movie_interactions_matrix.loc[user_id][user_movie_interactions_matrix.loc[user_id].isnull()].index.tolist()
+    
+    # looping through each of the product ids which user_id has not interacted yet
+    for item_id in non_interacted_movies:
+        
+        # predicting the ratings for those non interacted product ids by this user
+        est = model.predict(user_id, item_id).est
+        
+        # appending the predicted ratings
+        movie_id = movie_md[movie_md['id']==str(item_id)]['id'].values[0]
+        recommendations.append((movie_id, est))
+
+    # sorting the predicted ratings in descending order
+    recommendations.sort(key=lambda x: x[1], reverse=True)
+
+    # Convert to pure list with only recommendation id
+    recommendations = [int(item[0]) for item in recommendations]
+
+    # Print the recommendations
+    return recommendations[:top_n]
+    
+
 def get_recommendations(movie_id):
     # Convert movie id to int
     movie_id = int(movie_id)
@@ -425,7 +545,7 @@ def video_player(request):
     user_id = request.session['localId']
 
     # Get the recommendations
-    recommendations = get_recommendations(movie_id)
+    recommendations = load_content(similar_recommendation=[movie_id])
 
     # Create a movie data dictionary
     movie_data = {'id':movie_id ,'title': movie_title, 'cast': movie_cast, 'movie_path': movie_path}

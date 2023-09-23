@@ -1,0 +1,31 @@
+.footer{
+    display:grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    height: 300px;
+}
+#footer{
+    background: black;
+}
+.grid-item{
+    font-size: 30px;
+    text-align: center;
+    color: #FFF;
+}
+#g1{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 100px;
+}
+#g2{
+    color:darkgray;
+    font-size: 15px;
+    margin-top: 10px;
+}
+#g3{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    size: 1px;
+    color: darkgray;
+}

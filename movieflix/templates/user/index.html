@@ -36,6 +36,35 @@
           <button class="featured-button">WATCH NOW</button>
         </div>
 
+        <!-- Personalized Recommended Movies -->
+        <div class="movie-list-container">
+          <h1 class="movie-list-title">RECOMMENDED MOVIES</h1>
+          <div class="movie-list-wrapper">
+            <div class="movie-list">
+              {% for movie in recommendations %}
+              <a
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+              >
+                <div class="movie-list-item">
+                  <img
+                    class="movie-list-item-img"
+                    src="{% static 'image/movie-img1.webp' %}"
+                    alt=""
+                  />
+                  <span class="movie-list-item-title">{{ movie.title }}</span>
+                  <p class="movie-list-item-desc">
+                    {{ movie.overview|slice:":100"}}...
+                  </p>
+                  <button class="movie-list-item-button">Watch</button>
+                </div>
+              </a>
+
+              {% endfor %}
+            </div>
+            <i class="fas fa-chevron-right arrow"></i>
+          </div>
+        </div>
+
         <!-- New Release Container -->
         <div class="movie-list-container">
           <h1 class="movie-list-title">ACTION MOVIES</h1>
@@ -146,7 +175,7 @@
             <div class="movie-list">
               {% for movie in movies_by_genre.animation %}
               <a
-                href="/user/movie_player/?title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
               >
                 <div class="movie-list-item">
                   <img
@@ -172,3 +201,5 @@
     <script src="{% static 'script/app.js' %}"></script>
   </body>
 </html>
+
+{% include 'user/footer.html' %}

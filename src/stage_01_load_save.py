@@ -22,11 +22,19 @@ def get_data(path):
 
     # Read the data from the remote source 
     ratings = pd.read_csv(raw_data_path1)
-    movies_md = pd.read_csv(raw_data_path2)
+    movies_md = pd.read_csv(raw_data_path2, low_memory=False)
 
     # Save the loaded data into the raw_local_data_dir
     save_local_df(ratings, raw_local_data_dir, header=True, name='ratings.csv')
     save_local_df(movies_md, raw_local_data_dir, header=True, name='movies_md.csv')
+
+def main(path='params.yaml'):
+    try:
+        # Fetch the data according to the arguments passed
+        get_data(path = path)
+    
+    except Exception as e:
+        raise e
 
 if __name__ == '__main__':
     # Initialize an argument parser object

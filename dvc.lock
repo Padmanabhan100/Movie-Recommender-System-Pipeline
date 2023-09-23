@@ -5,79 +5,79 @@ stages:
     deps:
     - path: src/stage_01_load_save.py
       hash: md5
-      md5: 84e896fa33526da92b68c23817bbb394
-      size: 1696
+      md5: 9e2a8b2a1887e03c57dd34399367323e
+      size: 1899
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
       size: 1253
     params:
       params.yaml:
-        artifacts.artifacts_dir: artifacts
-        artifacts.raw_local_data_dir: artifacts/raw_local_data_dir
+        artifacts.artifacts_dir: movieflix/artifacts
+        artifacts.raw_local_data_dir: movieflix/artifacts/raw_local_data_dir
         data_source.movies_metadata: https://drive.google.com/uc?id=1GJRv9a-QR1YggxGDR-rPjsY-RF3JD2sw
         data_source.ratings: https://drive.google.com/uc?id=13avH15UI7rS4NwrKQd4cSfIbLdVtHOYO
     outs:
-    - path: artifacts/raw_local_data_dir/movies_md.csv
+    - path: movieflix/artifacts/raw_local_data_dir/movies_md.csv
       hash: md5
       md5: d309a4f3f9b7e2d33f0ad37cb60ba1b2
       size: 34672503
-    - path: artifacts/raw_local_data_dir/ratings.csv
+    - path: movieflix/artifacts/raw_local_data_dir/ratings.csv
       hash: md5
       md5: 8864480f98416ccecaf17aa5263bbea1
       size: 2438266
   data_cleaning:
     cmd: python src/stage_02_data_cleaning.py --config=params.yaml
     deps:
-    - path: artifacts/raw_local_data_dir/movies_md.csv
+    - path: movieflix/artifacts/raw_local_data_dir/movies_md.csv
       hash: md5
       md5: d309a4f3f9b7e2d33f0ad37cb60ba1b2
       size: 34672503
-    - path: artifacts/raw_local_data_dir/ratings.csv
+    - path: movieflix/artifacts/raw_local_data_dir/ratings.csv
       hash: md5
       md5: 8864480f98416ccecaf17aa5263bbea1
       size: 2438266
     - path: src/stage_02_data_cleaning.py
       hash: md5
-      md5: 3f63cc5891dd6c2b9dc0612c1c932c7c
-      size: 2182
+      md5: 63e10d781bfa03a2ad84cf882ea82d33
+      size: 2367
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
       size: 1253
     params:
       params.yaml:
-        artifacts.clean_local_data_dir: artifacts/clean_local_data_dir
+        artifacts.clean_local_data_dir: movieflix/artifacts/clean_local_data_dir
         artifacts.datasets:
         - ratings.csv
         - movies_md.csv
-        artifacts.raw_local_data_dir: artifacts/raw_local_data_dir
+        artifacts.raw_local_data_dir: movieflix/artifacts/raw_local_data_dir
     outs:
-    - path: artifacts/clean_local_data_dir/clean_data.csv
+    - path: movieflix/artifacts/clean_local_data_dir/clean_data.csv
       hash: md5
       md5: 0db7a470e47944a1673bfc15c20adf17
       size: 712310
   train_test_split:
     cmd: python src/stage_03_train_test_split.py --config=params.yaml --model=model_based
     deps:
-    - path: artifacts/clean_local_data_dir/clean_data.csv
+    - path: movieflix/artifacts/clean_local_data_dir/clean_data.csv
       hash: md5
       md5: 0db7a470e47944a1673bfc15c20adf17
       size: 712310
     - path: src/stage_03_train_test_split.py
       hash: md5
-      md5: 90d052b88bd6f538c9b37ce63393e81b
-      size: 2827
+      md5: b62f6db902e48ee418bbbe9aab07752f
+      size: 3077
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
       size: 1253
     params:
       params.yaml:
-        artifacts.clean_local_data_dir: artifacts/clean_local_data_dir
-        artifacts.latest_model_dir: artifacts/latest_model_dir
-        artifacts.test_data_dir: artifacts/test_data_dir
-        artifacts.train_data_dir: artifacts/train_data_dir
+        artifacts.clean_local_data_dir: movieflix/artifacts/clean_local_data_dir
+        artifacts.latest_model_dir: movieflix/artifacts/latest_model_dir
+        artifacts.test_data_dir: movieflix/artifacts/test_data_dir
+        artifacts.train_data_dir: movieflix/artifacts/train_data_dir
         model.memory_based.item_item_based:
           project: similarity-movie-recommender-system
           random_state: 42
@@ -91,73 +91,73 @@ stages:
         model.model_based.random_state: 42
         model.model_based.train_size: 0.8
     outs:
-    - path: artifacts/test_data_dir/test.csv
+    - path: movieflix/artifacts/test_data_dir/test.csv
       hash: md5
       md5: 219f8f1e4fed62c620874f571d97429e
       size: 142497
-    - path: artifacts/train_data_dir/train.csv
+    - path: movieflix/artifacts/train_data_dir/train.csv
       hash: md5
       md5: 5e179a31d920510feb9cdb21a84fb9cc
       size: 569846
   train:
     cmd: python src/stage_04_train.py --config=params.yaml --model=model_based
     deps:
-    - path: artifacts/train_data_dir/train.csv
+    - path: movieflix/artifacts/train_data_dir/train.csv
       hash: md5
       md5: 5e179a31d920510feb9cdb21a84fb9cc
       size: 569846
     - path: src/stage_04_train.py
       hash: md5
-      md5: d64add8855090378b3dcda8db3953f97
-      size: 3993
+      md5: 8c27a91bfdf41cf121f69d29b2bf47be
+      size: 4907
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
       size: 1253
     params:
       params.yaml:
-        artifacts.latest_model_dir: artifacts/latest_model_dir
-        artifacts.train_data_dir: artifacts/train_data_dir
+        artifacts.latest_model_dir: movieflix/artifacts/latest_model_dir
+        artifacts.train_data_dir: movieflix/artifacts/train_data_dir
     outs:
-    - path: artifacts/latest_model_dir/model.sav
+    - path: movieflix/artifacts/latest_model_dir/model.sav
       hash: md5
-      md5: e65b89f62a2b32232a195cae8dce0bcb
+      md5: 747cb155e12feac6b16c28d16f3f7478
       size: 2299692
   evaluate:
     cmd: python src/stage_05_evaluate.py --config=params.yaml --model=model_based
     deps:
-    - path: artifacts/latest_model_dir/model.sav
+    - path: movieflix/artifacts/latest_model_dir/model.sav
       hash: md5
-      md5: e65b89f62a2b32232a195cae8dce0bcb
+      md5: 747cb155e12feac6b16c28d16f3f7478
       size: 2299692
-    - path: artifacts/test_data_dir/test.csv
+    - path: movieflix/artifacts/test_data_dir/test.csv
       hash: md5
       md5: 219f8f1e4fed62c620874f571d97429e
       size: 142497
-    - path: artifacts/train_data_dir/train.csv
+    - path: movieflix/artifacts/train_data_dir/train.csv
       hash: md5
       md5: 5e179a31d920510feb9cdb21a84fb9cc
       size: 569846
     - path: src/stage_05_evaluate.py
       hash: md5
-      md5: 478035a74d8e55c549c7fb316ced2de9
-      size: 4260
+      md5: 67f589734399979ca807b21ee6caf436
+      size: 4447
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
       size: 1253
     params:
       params.yaml:
-        artifacts.latest_model_dir: artifacts/latest_model_dir
-        artifacts.metrics_dir: artifacts/metrics_dir
-        artifacts.test_data_dir: artifacts/test_data_dir
-        artifacts.train_data_dir: artifacts/train_data_dir
+        artifacts.latest_model_dir: movieflix/artifacts/latest_model_dir
+        artifacts.metrics_dir: movieflix/artifacts/metrics_dir
+        artifacts.test_data_dir: movieflix/artifacts/test_data_dir
+        artifacts.train_data_dir: movieflix/artifacts/train_data_dir
     outs:
-    - path: artifacts/metrics_dir/metrics.csv
+    - path: movieflix/artifacts/metrics_dir/metrics.csv
       hash: md5
-      md5: 289c52fe81581cd6cc5f63f78e65797f
-      size: 201
-    - path: artifacts/metrics_dir/metrics.png
+      md5: 9b5ef1fb6128b1ae3b49acc4d6c4b01d
+      size: 199
+    - path: movieflix/artifacts/metrics_dir/metrics.png
       hash: md5
-      md5: df6fd82180dc66f29ef50df37dee6903
-      size: 27434
+      md5: dc1c70bde82ff4ea6dde0102b764516c
+      size: 27987

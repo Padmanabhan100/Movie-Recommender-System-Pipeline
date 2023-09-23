@@ -53,6 +53,10 @@ def train_model(path, model, model_type):
         model_path = os.path.join(latest_model_dir,'model.sav')
         pickle.dump(svd, open(model_path, 'wb'))
 
+        # Save a copy inside the django app to access the latest model
+        model_path = os.path.join("movieflix", "manual_artifacts" , 'model.sav')
+        pickle.dump(svd, open(model_path, 'wb'))
+
 
     elif model == "memory_based":
         if model_type == 'user_user_based':
@@ -69,7 +73,11 @@ def train_model(path, model, model_type):
 
             # Save the model in the latest model directory
             model_path = os.path.join(latest_model_dir,'model.sav')
-            pickle.dump(svd, open(model_path, 'wb'))
+            pickle.dump(sim_user, open(model_path, 'wb'))
+
+            # Save a copy inside the django app to access the latest model
+            model_path = os.path.join("movieflix", "manual_artifacts" , 'model.sav')
+            pickle.dump(sim_user, open(model_path, 'wb'))
 
         
         elif model_type == 'item_item_based':
@@ -88,7 +96,11 @@ def train_model(path, model, model_type):
 
             # Save the model in the latest model directory
             model_path = os.path.join(latest_model_dir,'model.sav')
-            pickle.dump(svd, open(model_path, 'wb'))
+            pickle.dump(sim_item, open(model_path, 'wb'))
+
+            # Save a copy inside the django app to access the latest model
+            model_path = os.path.join("movieflix", "manual_artifacts" , 'model.sav')
+            pickle.dump(sim_item, open(model_path, 'wb'))
 
 
         else:
@@ -97,6 +109,14 @@ def train_model(path, model, model_type):
     else:
         print("Select a model!")
 
+
+def main(path="params.yaml", model='model_based', model_type=''):
+    try:
+        # Fetch the data according to the arguments passed
+       train_model(path = path, model=model, model_type=model_type)
+    
+    except Exception as e:
+        raise e
 
 if __name__ == '__main__':
     # Initialize an argument parser object
@@ -114,7 +134,7 @@ if __name__ == '__main__':
     # Fetch the data from the path mentioned in the config file(params.yaml)
     try:
         # Fetch the data according to the arguments passed
-        data = train_model(path = parsed_args.config, model=parsed_args.model, model_type=parsed_args.model_type)
+        train_model(path = parsed_args.config, model=parsed_args.model, model_type=parsed_args.model_type)
     
     except Exception as e:
         raise e

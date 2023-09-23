@@ -102,6 +102,13 @@ def evaluate_model(path):
     # Save the datframe
     metrics_df.to_csv(f"{metrics_dir}/metrics.csv", index=True, header=True)
 
+def main(path='params.yaml'):
+    try:
+        # Fetch the data according to the arguments passed
+        evaluate_model(path=path)
+    
+    except Exception as e:
+        raise e
 
 if __name__ == '__main__':
     # Initialize an argument parser object

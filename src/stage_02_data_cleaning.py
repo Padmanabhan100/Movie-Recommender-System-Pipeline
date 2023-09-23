@@ -51,6 +51,13 @@ def clean_data(path):
     # Save the dataframe
     save_local_df(ratings, clean_local_data_dir, True, 'clean_data.csv')
 
+def main(path='params.yaml'):
+    try:
+        # Fetch the data according to the arguments passed
+        clean_data(path = path)
+    
+    except Exception as e:
+        raise e
 
 if __name__ == '__main__':
     # Initialize an argument parser object

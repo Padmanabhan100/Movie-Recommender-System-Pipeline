@@ -10,29 +10,29 @@ stages:
       - artifacts.raw_local_data_dir
       - artifacts.artifacts_dir
     outs:
-      - artifacts/raw_local_data_dir/ratings.csv
-      - artifacts/raw_local_data_dir/movies_md.csv
+      - movieflix/artifacts/raw_local_data_dir/ratings.csv
+      - movieflix/artifacts/raw_local_data_dir/movies_md.csv
 
   data_cleaning:
     cmd: python src/stage_02_data_cleaning.py --config=params.yaml
     deps:
       - src/stage_02_data_cleaning.py
-      - artifacts/raw_local_data_dir/ratings.csv
-      - artifacts/raw_local_data_dir/movies_md.csv
+      - movieflix/artifacts/raw_local_data_dir/ratings.csv
+      - movieflix/artifacts/raw_local_data_dir/movies_md.csv
       - src/utils/common_utils.py
     params:
       - artifacts.datasets
       - artifacts.raw_local_data_dir
       - artifacts.clean_local_data_dir
     outs:
-      - artifacts/clean_local_data_dir/clean_data.csv
+      - movieflix/artifacts/clean_local_data_dir/clean_data.csv
 
   train_test_split:
     cmd: python src/stage_03_train_test_split.py --config=params.yaml --model=model_based
     deps:
       - src/stage_03_train_test_split.py
       - src/utils/common_utils.py
-      - artifacts/clean_local_data_dir/clean_data.csv
+      - movieflix/artifacts/clean_local_data_dir/clean_data.csv
     params:
       - artifacts.latest_model_dir
       - artifacts.train_data_dir
@@ -43,34 +43,34 @@ stages:
       - model.memory_based.item_item_based
       - model.memory_based.user_user_based
     outs:
-    - artifacts/train_data_dir/train.csv
-    - artifacts/test_data_dir/test.csv
+    - movieflix/artifacts/train_data_dir/train.csv
+    - movieflix/artifacts/test_data_dir/test.csv
 
   train:
     cmd: python src/stage_04_train.py --config=params.yaml --model=model_based
     deps:
       - src/stage_04_train.py
       - src/utils/common_utils.py
-      - artifacts/train_data_dir/train.csv
+      - movieflix/artifacts/train_data_dir/train.csv
     params:
       - artifacts.latest_model_dir
       - artifacts.train_data_dir
     outs:
-      - artifacts/latest_model_dir/model.sav
+      - movieflix/artifacts/latest_model_dir/model.sav
 
   evaluate:
     cmd: python src/stage_05_evaluate.py --config=params.yaml --model=model_based
     deps:
       - src/stage_05_evaluate.py
       - src/utils/common_utils.py
-      - artifacts/train_data_dir/train.csv
-      - artifacts/test_data_dir/test.csv
-      - artifacts/latest_model_dir/model.sav
+      - movieflix/artifacts/train_data_dir/train.csv
+      - movieflix/artifacts/test_data_dir/test.csv
+      - movieflix/artifacts/latest_model_dir/model.sav
     params:
       - artifacts.latest_model_dir
       - artifacts.train_data_dir
       - artifacts.test_data_dir
       - artifacts.metrics_dir
     outs:
-      - artifacts/metrics_dir/metrics.csv
-      - artifacts/metrics_dir/metrics.png
+      - movieflix/artifacts/metrics_dir/metrics.csv
+      - movieflix/artifacts/metrics_dir/metrics.png
