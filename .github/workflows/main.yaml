@@ -14,6 +14,20 @@ env:
 
 jobs:
   Continuous-Integration:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Lint code
+        run: echo "Linting repository"
+
+      - name: Run unit tests
+        run: echo "Running unit tests"
+
+  Continuous-Delivery:
+    needs: Continuous-Integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -55,7 +69,7 @@ jobs:
           docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   Continuous-Deployment:
-    needs: Continuous-Integration
+    needs: Continuous-Delivery
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
