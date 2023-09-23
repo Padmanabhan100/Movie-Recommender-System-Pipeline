@@ -24,6 +24,8 @@ CSRF_COOKIE_SAMESITE = 'Lax'  # Adjust to 'Strict' or 'None' if needed
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CSRF_TRUSTED_ORIGINS = ['https://my-cloud-run-service-4uyzwngf6q-el.a.run.app/']
+
 ALLOWED_HOSTS = ["*"]
 
 

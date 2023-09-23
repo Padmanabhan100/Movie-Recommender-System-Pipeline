@@ -28,7 +28,7 @@
         </div>
 
         <!-- Search FORM -->
-        <form action="/user/search/" method="get" class="searchbar">
+        <form action="/user/search/" method="GET" class="searchbar">
           {% csrf_token %}
           <input type="text" placeholder="search" name="searched_movie_title" id="searched_movie_title" required>
 
