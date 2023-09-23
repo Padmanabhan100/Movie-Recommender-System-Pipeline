@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 from pathlib import Path
 import pickle
 from django.views.decorators.csrf import csrf_exempt
-
 import traceback
 
 
@@ -311,18 +310,19 @@ def landing(request):
             movies_by_genre = load_content(landing=True)
 
             # Get the manual artifacts dir
-            manual_artifacts_dir =Path(__file__).resolve().parent.parent / 'manual_artifacts'
+            manual_artifacts_dir = Path(__file__).resolve().parent.parent / 'manual_artifacts'
 
             # Get the artifacts directory
             artifacts_dir = Path(__file__).resolve().parent.parent / 'artifacts'
 
             # Load the similarity matrix and set as global variable
             global similarity
-            similarity = np.load(os.path.join(manual_artifacts_dir, 'similarity.npy'))
+            similarity = np.load(f"{manual_artifacts_dir}/similarity.npy")
 
             # Load the movie_id and similarity mappings
             global movie_sim_map 
-            movie_sim_map = pd.read_csv(os.path.join(manual_artifacts_dir, 'movie_similarity_id_mapping.csv'))
+            movie_sim_map = pd.read_csv(f"{manual_artifacts_dir}/movie_similarity_id_mapping.csv")
+            print("read movie_sim_map --> ",movie_sim_map.head())
 
 
             # Get user id to get personalized recommendations for the user
@@ -333,10 +333,6 @@ def landing(request):
 
             # Fetch the recommended movies from db
             recommendations = load_content(personalized_recommendations=recommendations)
-
-
-            # Print the recommended movies
-            print("Recommendations : ", recommendations)
                 
             # Show the landing page
             return render(request, 'user/index.html', {"movies_by_genre":movies_by_genre, 'recommendations':recommendations})
