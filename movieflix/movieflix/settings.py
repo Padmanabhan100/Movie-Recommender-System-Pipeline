@@ -17,7 +17,7 @@ RAZOR_KEY_SECRET = os.getenv('RAZOR_KEY_SECRET')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 CORS_ORIGIN_ALLOW_ALL = True
 
