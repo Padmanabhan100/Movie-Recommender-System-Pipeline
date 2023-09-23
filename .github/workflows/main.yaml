@@ -28,24 +28,18 @@ jobs:
 
       - name: Install manual artifacts from Google Cloud Storage
         run: |-
-          pwd
-          dir
-          
-          echo "auth line passed"
+
           # Specify the bucket name and paths to the files you want to download
           BUCKET_NAME="movieflixbucket"
-          SOURCE_PATHS=(${{ env.MOVIE_SIMILARITY_ID_MAPPING_FILE }} ${{ env.SIMILARITY_FILE }})
 
-          echo "create dest dir - ${BUCKET_NAME} - ${SOURCE_PATHS}"
           # Destination directory
           DESTINATION_DIR="./movieflix/manual_artifacts"
-          echo "dest dir done - ${DESTINATION_DIR}"
+          
+          # Download the file movie mapping file to the destination directory
+          gsutil cp "gs://${BUCKET_NAME}/movie_similarity_id_mapping.csv" "${DESTINATION_DIR}"
 
-          # Loop through the source paths and download each file
-          for SOURCE_PATH in "${SOURCE_PATHS[@]}"; do
-            # Download the file to the destination directory
-            gsutil cp "gs://${BUCKET_NAME}/${SOURCE_PATH}" "${DESTINATION_DIR}"
-          done
+          # Download the similarty file to the destination directory
+          gsutil cp "gs://${BUCKET_NAME}/similarity.npy" "${DESTINATION_DIR}"
 
       - name: Build and Push Docker imgae
         run: |-
