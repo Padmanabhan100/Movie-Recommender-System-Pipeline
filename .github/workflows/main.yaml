@@ -9,6 +9,8 @@ env:
   SERVICE: my-cloud-run-service # TODO: update Cloud Run service name
   REGION: asia-south1 # TODO: update Cloud Run service region.
   IMAGE_NAME: movieflix_image
+  MOVIE_SIMILARITY_ID_MAPPING_FILE: https://storage.cloud.google.com/movieflixbucket/movie_similarity_id_mapping.csv?authuser=0
+  SIMILARITY_FILE: https://storage.cloud.google.com/movieflixbucket/similarity.npy?authuser=0
 
 jobs:
   Continuous-Integration:
@@ -24,6 +26,25 @@ jobs:
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           export_default_credentials: true
 
+      - name: Install manual artifacts from Google Cloud Storage
+        run: |-
+          # Authenticate with Google Cloud using a service account key
+          echo "${{ secrets.GCP_CREDENTIALS }}" > key.json
+          gcloud auth activate-service-account --key-file=key.json
+          
+          # Specify the bucket name and paths to the files you want to download
+          BUCKET_NAME="movieflixbucket"
+          SOURCE_PATHS=(${{ env.MOVIE_SIMILARITY_ID_MAPPING_FILE }}, ${{ env.SIMILARITY_FILE }})
+
+          # Destination directory
+          DESTINATION_DIR="./movieflix/manual_artifacts"
+
+          # Loop through the source paths and download each file
+          for SOURCE_PATH in "${SOURCE_PATHS[@]}"; do
+            # Download the file to the destination directory
+            gsutil cp "gs://${BUCKET_NAME}/${SOURCE_PATH}" "${DESTINATION_DIR}"
+          done
+
       - name: Build and Push Docker imgae
         run: |-
 
@@ -34,7 +55,6 @@ jobs:
           echo "Building Image"
           docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           echo "Image Built Successfully!"
-
 
           docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_LOCATION }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
