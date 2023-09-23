@@ -31,15 +31,18 @@ jobs:
           pwd
           dir
           # Authenticate with Google Cloud using a service account key
-          #echo ${{ secrets.GCP_CREDENTIALS }} > key.json
-          #gcloud auth activate-service-account --key-file=key.json
+          # echo ${{ secrets.GCP_CREDENTIALS }} > key.json
+          # gcloud auth activate-service-account --key-file=key.json
           
+          echo "auth line passed"
           # Specify the bucket name and paths to the files you want to download
           BUCKET_NAME="movieflixbucket"
           SOURCE_PATHS=(${{ env.MOVIE_SIMILARITY_ID_MAPPING_FILE }} ${{ env.SIMILARITY_FILE }})
 
+          echo "create dest dir"
           # Destination directory
           DESTINATION_DIR="./movieflix/manual_artifacts"
+          echo "dest dir done"
 
           # Loop through the source paths and download each file
           for SOURCE_PATH in "${SOURCE_PATHS[@]}"; do
