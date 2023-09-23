@@ -34,7 +34,7 @@ jobs:
           
           # Specify the bucket name and paths to the files you want to download
           BUCKET_NAME="movieflixbucket"
-          SOURCE_PATHS=(${{ env.MOVIE_SIMILARITY_ID_MAPPING_FILE }}, ${{ env.SIMILARITY_FILE }})
+          SOURCE_PATHS=(${{ env.MOVIE_SIMILARITY_ID_MAPPING_FILE }} ${{ env.SIMILARITY_FILE }})
 
           # Destination directory
           DESTINATION_DIR="./movieflix/manual_artifacts"
