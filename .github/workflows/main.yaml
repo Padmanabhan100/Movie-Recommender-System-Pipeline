@@ -29,7 +29,7 @@ jobs:
       - name: Install manual artifacts from Google Cloud Storage
         run: |-
           # Authenticate with Google Cloud using a service account key
-          echo ${{ secrets.GCP_CREDENTIALS }} > key.json
+          echo "${{ secrets.GCP_CREDENTIALS }}" > key.json
           gcloud auth activate-service-account --key-file=key.json
           
           # Specify the bucket name and paths to the files you want to download
