@@ -1,11 +1,17 @@
 <!-- payment.html -->
 <html>
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/payment.css' %}">
+</head>
 <body>
-    <h1>Complete your payment</h1>
 
     {% if payment_data.email and payment_data.password %}
+
+    <div class="container">
         <form action="/user/post_payment/" method="POST">
             {% csrf_token %}
+            <h1>Complete your payment</h1>
             <script
                 src="https://checkout.razorpay.com/v1/checkout.js"
                 data-key="rzp_test_uUjzIyQZt4FvzV"
@@ -18,15 +24,19 @@
                 data-image="https://example.com/your_logo.jpg"
                 data-prefill.name="Easy Produce Enterprise"
                 data-prefill.email="paddyrolex10@gmail.com"
-                data-theme.color="#F37254"></script>
-
-            <input type="hidden" value="{{ user_id }}" name="user_id">
+                data-theme.color="#F37254"
+                ></script>
         </form>
+    </div>
+        
 
     {% else %}
-    <form action="/user/renew_payment_done/" method="POST">
-        {% csrf_token %}
-        <script
+
+    <div class="container">
+        <form action="/user/renew_payment_done/" method="POST">
+            {% csrf_token %}
+            <h1>Complete your payment</h1>
+            <script
             src="https://checkout.razorpay.com/v1/checkout.js"
             data-key="rzp_test_uUjzIyQZt4FvzV"
             data-currency="INR"
@@ -38,14 +48,35 @@
             data-image="https://example.com/your_logo.jpg"
             data-prefill.name="Easy Produce Enterprise"
             data-prefill.email="paddyrolex10@gmail.com"
-            data-theme.color="#F37254"></script>
-
-        <input type="hidden" value="{{ user_id }}" name="user_id">
-    </form>
+            data-theme.color="#F37254"
+            ></script>
+        </form>
+        
+        
+    </div>
+    
 
     {% endif %}
-
-    
-    
+ 
 </body>
 </html>
+
+<script>
+    // Wait for the Razorpay script to load
+    //document.getElementByClassName('razorpay-payment-button').addEventListener('load', function () {
+        // Target the Razorpay button
+        var razorpayButton = document.querySelector('.razorpay-payment-button');
+
+        // Apply the specified styles to the button
+        razorpayButton.style.background = 'linear-gradient(to bottom right, #2d1632, #572f58)';
+        razorpayButton.style.width = '100%';
+        razorpayButton.style.padding = '10px';
+        razorpayButton.style.borderRadius = '5px';
+        razorpayButton.style.border = 'none';
+        razorpayButton.style.marginTop = '40px';
+        razorpayButton.style.color = '#d5e1f6';
+        razorpayButton.style.cursor = 'pointer';
+        razorpayButton.style.fontWeight = '600';
+        razorpayButton.style.letterSpacing = '2px';
+    
+</script>

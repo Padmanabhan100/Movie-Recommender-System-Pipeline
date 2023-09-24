@@ -1,0 +1,30 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg, #000000, #151515, #222324);
+}
+
+h1{
+    color: white;
+    
+}
+
+.razorpay-payment-button{
+    background: linear-gradient(to bottom right,#2d1632,#572f58 );
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 40px;
+    color: #d5e1f6;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 2px;
+}

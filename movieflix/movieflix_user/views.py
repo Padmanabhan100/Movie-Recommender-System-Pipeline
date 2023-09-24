@@ -344,7 +344,8 @@ def landing(request):
         traceback.print_exc()
         print("Exception from landing:", e)
         return render(request, 'user/signin.html')
-    
+
+@csrf_exempt
 def logout(request):
     try:
         del request.session['uid']
