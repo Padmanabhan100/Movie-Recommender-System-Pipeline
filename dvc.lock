@@ -24,18 +24,14 @@ stages:
   data_cleaning:
     cmd: python src/stage_02_data_cleaning.py --config=params.yaml
     deps:
-    - path: movieflix/artifacts/raw_local_data_dir/movies_md.csv
-      hash: md5
-      md5: d309a4f3f9b7e2d33f0ad37cb60ba1b2
-      size: 34672503
     - path: movieflix/artifacts/raw_local_data_dir/ratings.csv
       hash: md5
       md5: 8864480f98416ccecaf17aa5263bbea1
       size: 2438266
     - path: src/stage_02_data_cleaning.py
       hash: md5
-      md5: a8c52dcbd6bc135052b3e5c39edbb8e1
-      size: 2544
+      md5: ce8ad151a6d2f52da03b9ceb324ccccc
+      size: 1697
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
@@ -43,15 +39,12 @@ stages:
     params:
       params.yaml:
         artifacts.clean_local_data_dir: movieflix/artifacts/clean_local_data_dir
-        artifacts.datasets:
-        - ratings.csv
-        - movies_md.csv
         artifacts.raw_local_data_dir: movieflix/artifacts/raw_local_data_dir
     outs:
     - path: movieflix/artifacts/clean_local_data_dir/clean_data.csv
       hash: md5
-      md5: 0db7a470e47944a1673bfc15c20adf17
-      size: 712310
+      md5: 8864480f98416ccecaf17aa5263bbea1
+      size: 2438266
   train_test_split:
     cmd: python src/stage_03_train_test_split.py --config=params.yaml --model=model_based
     deps:

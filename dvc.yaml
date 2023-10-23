@@ -16,10 +16,8 @@ stages:
     deps:
       - src/stage_02_data_cleaning.py
       - movieflix/artifacts/raw_local_data_dir/ratings.csv
-      - movieflix/artifacts/raw_local_data_dir/movies_md.csv
       - src/utils/common_utils.py
     params:
-      - artifacts.datasets
       - artifacts.raw_local_data_dir
       - artifacts.clean_local_data_dir
     outs:
