@@ -50,8 +50,8 @@ stages:
     deps:
     - path: movieflix/artifacts/clean_local_data_dir/clean_data.csv
       hash: md5
-      md5: 0db7a470e47944a1673bfc15c20adf17
-      size: 712310
+      md5: 8864480f98416ccecaf17aa5263bbea1
+      size: 2438266
     - path: src/stage_03_train_test_split.py
       hash: md5
       md5: b62f6db902e48ee418bbbe9aab07752f
@@ -81,12 +81,12 @@ stages:
     outs:
     - path: movieflix/artifacts/test_data_dir/test.csv
       hash: md5
-      md5: 219f8f1e4fed62c620874f571d97429e
-      size: 142497
+      md5: 87cb4eedbf850756d6d1b6968fa74e7b
+      size: 487898
     - path: movieflix/artifacts/train_data_dir/train.csv
       hash: md5
-      md5: 5e179a31d920510feb9cdb21a84fb9cc
-      size: 569846
+      md5: 2dd0011381e86d42024cd5138a021288
+      size: 1950401
   train:
     cmd: python src/stage_04_train.py --config=params.yaml --model=model_based
     deps:
