@@ -20,10 +20,10 @@ model:
 
 data_source:
   ratings:   "https://drive.google.com/uc?id=13avH15UI7rS4NwrKQd4cSfIbLdVtHOYO"
-  movies_metadata: "https://drive.google.com/uc?id=1GJRv9a-QR1YggxGDR-rPjsY-RF3JD2sw"
 
 
 artifacts:
+  dataset_name: ratings.csv
   artifacts_dir: movieflix/artifacts
   raw_local_data_dir: movieflix/artifacts/raw_local_data_dir
   clean_local_data_dir: movieflix/artifacts/clean_local_data_dir
@@ -32,4 +32,3 @@ artifacts:
   train_data_dir: movieflix/artifacts/train_data_dir
   test_data_dir: movieflix/artifacts/test_data_dir
   metrics_dir: movieflix/artifacts/metrics_dir
-  datasets: [ratings.csv, movies_md.csv]

@@ -6,12 +6,10 @@ stages:
       - src/utils/common_utils.py
     params:
       - data_source.ratings
-      - data_source.movies_metadata
       - artifacts.raw_local_data_dir
       - artifacts.artifacts_dir
     outs:
       - movieflix/artifacts/raw_local_data_dir/ratings.csv
-      - movieflix/artifacts/raw_local_data_dir/movies_md.csv
 
   data_cleaning:
     cmd: python src/stage_02_data_cleaning.py --config=params.yaml

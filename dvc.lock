@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/stage_01_load_save.py
       hash: md5
-      md5: 9e2a8b2a1887e03c57dd34399367323e
-      size: 1899
+      md5: 75368febdc3d928d86fbc446a7992d13
+      size: 1688
     - path: src/utils/common_utils.py
       hash: md5
       md5: eb690a98a985f2cf4ffce2eec3991ece
@@ -15,13 +15,8 @@ stages:
       params.yaml:
         artifacts.artifacts_dir: movieflix/artifacts
         artifacts.raw_local_data_dir: movieflix/artifacts/raw_local_data_dir
-        data_source.movies_metadata: https://drive.google.com/uc?id=1GJRv9a-QR1YggxGDR-rPjsY-RF3JD2sw
         data_source.ratings: https://drive.google.com/uc?id=13avH15UI7rS4NwrKQd4cSfIbLdVtHOYO
     outs:
-    - path: movieflix/artifacts/raw_local_data_dir/movies_md.csv
-      hash: md5
-      md5: d309a4f3f9b7e2d33f0ad37cb60ba1b2
-      size: 34672503
     - path: movieflix/artifacts/raw_local_data_dir/ratings.csv
       hash: md5
       md5: 8864480f98416ccecaf17aa5263bbea1
