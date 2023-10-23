@@ -92,8 +92,8 @@ stages:
     deps:
     - path: movieflix/artifacts/train_data_dir/train.csv
       hash: md5
-      md5: 5e179a31d920510feb9cdb21a84fb9cc
-      size: 569846
+      md5: 2dd0011381e86d42024cd5138a021288
+      size: 1950401
     - path: src/stage_04_train.py
       hash: md5
       md5: 8c27a91bfdf41cf121f69d29b2bf47be
@@ -109,8 +109,8 @@ stages:
     outs:
     - path: movieflix/artifacts/latest_model_dir/model.sav
       hash: md5
-      md5: 747cb155e12feac6b16c28d16f3f7478
-      size: 2299692
+      md5: 89a4120c07c2fa188b962d98986c7f2a
+      size: 9618638
   evaluate:
     cmd: python src/stage_05_evaluate.py --config=params.yaml --model=model_based
     deps:
