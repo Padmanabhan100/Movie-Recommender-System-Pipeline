@@ -1,0 +1,36 @@
+<html>
+    {% load static %}
+    
+     <!-- Search movies -->
+     {% include 'dashboard/navbar.html' %}
+    <head>
+        <link rel="stylesheet" href="{% static 'css/dashboard_panel.css' %}">
+    </head>
+
+    <body>
+        <!-- List movies with delete option -->
+        {% for movie_data in page_data %}
+            {{movie_data.title}}
+            <a href="/dashboard/delete_movie/{{movie_data.id}}"><button>Delete Movie</button></a>
+        {% endfor %}
+
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_data.has_previous %}
+                <button type="button" class="btn btn dark"><a href="?page=1">&laquo; first</a></button>
+                <button type="button" class="btn btn dark"><a href="?page={{ page_data.previous_page_number }}">previous</a></button>
+                    
+                {% endif %}
+        
+        
+                {% if page_data.has_next %}
+                <button type="button" class="btn btn-btn dark"><a href="?page={{ page_data.next_page_number }}">next</a></button>
+                <button type="button" class="btn btn-btn dark"><a href="?page={{ page_data.paginator.num_pages }}">last &raquo;</a></button>                            
+                {% endif %}
+
+                <span class="current-page" style="color:white">{{ page_data.number }} Page out of {{ num_pages }}</span>
+            </span>
+        </div>
+    </body>
+</html>

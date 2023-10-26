@@ -1,0 +1,103 @@
+*{
+    margin: 0;
+}
+
+body{
+    font-family: 'Roboto', 'sans-serif';
+    background-color: black;
+}
+.navbar{
+    width: 100%;
+    background-color: black;
+
+}
+.navbar-container{
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    background-color: black;
+    height: 75px;
+    color: white;
+    
+}
+.logo-container{
+    flex: 1;
+}
+.searchbar{
+    width: 100%;
+    max-width: 500px;
+    background: rgba(255,255,255,0.2);
+    display:flex;
+    align-items: center;
+    border-radius: 60px;
+    padding:2px 5px;
+    backdrop-filter: blur(4px) saturate(180%);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 0px;
+    margin-left: 500px;
+}
+.searchbar input{
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 10px 8px;
+    font-size: 15px;
+    color: #cac7ff;
+}       
+::placeholder{
+    color:#cac7ff;
+}
+.searchbar button img{
+    width: 25px;
+}
+.searchbar button{
+    border: 0;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: #4f5260;
+    cursor: pointer;
+}
+.profile-container{
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.profile-text-container{
+    margin: 0 15px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.profile-picture{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.toggle{
+    width: 47px;
+    height: 20px;
+    background-color: white;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    margin-left: 20px;
+}
+.toggle-icon{
+    color: goldenrod;
+}
+.toggle-ball
+{
+    width: 18px;
+    height: 18px;
+    background-color: black;
+    position: absolute;
+    right: 1px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 1s ease all;
+}

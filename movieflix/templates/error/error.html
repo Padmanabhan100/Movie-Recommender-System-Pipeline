@@ -1,0 +1,25 @@
+<html>
+    {% load static %}
+    <head>
+        <link rel="stylesheet" href="{% static 'css/error.css' %}">
+    </head>
+
+    <body>
+        <div>
+            <span class='error-num'>5</span>
+            <div class='eye'></div>
+            <div class='eye'></div>
+
+            {% if message %}
+                <p class='sub-text'>Oh eyeballs! {{ message }}</p>
+            {% else %}
+                <p class='sub-text'>Oh eyeballs! Something went wrong please try again later!</p>
+            {% endif %}
+
+            <a href=''>Go back</a>
+          </div>
+    </body>
+
+    <script src="{% static 'js/error.js' %}"></script>
+
+</html>

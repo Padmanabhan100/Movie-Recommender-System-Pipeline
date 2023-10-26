@@ -1,5 +1,6 @@
 README.md
 setup.py
+src/Training.py
 src/__init__.py
 src/stage_01_load_save.py
 src/stage_02_data_cleaning.py
@@ -9,5 +10,4 @@ src/stage_05_evaluate.py
 src.egg-info/PKG-INFO
 src.egg-info/SOURCES.txt
 src.egg-info/dependency_links.txt
-src.egg-info/requires.txt
 src.egg-info/top_level.txt

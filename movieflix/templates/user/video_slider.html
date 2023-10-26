@@ -1,0 +1,131 @@
+<html>
+    {% load static %}
+    <!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
+rel="stylesheet"
+/>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}" rel="stylesheet">
+
+<!-- Carousel wrapper -->
+<div
+  id="carouselVideoExample"
+  class="carousel slide carousel-fade"
+  data-mdb-ride="carousel"
+>
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    <button
+      type="button"
+      data-mdb-target="#carouselVideoExample"
+      data-mdb-slide-to="0"
+      class="active"
+      aria-current="true"
+      aria-label="Slide 1"
+    ></button>
+    <button
+      type="button"
+      data-mdb-target="#carouselVideoExample"
+      data-mdb-slide-to="1"
+      aria-label="Slide 2"
+    ></button>
+    <button
+      type="button"
+      data-mdb-target="#carouselVideoExample"
+      data-mdb-slide-to="2"
+      aria-label="Slide 3"
+    ></button>
+  </div>
+
+  <!-- Inner -->
+  <div class="carousel-inner">
+    <!-- Single item -->
+    <div class="carousel-item active">
+      <img src="https://imgs.search.brave.com/aqtpXYdNNd4tgCyo2jqh4AyWbA2sEnqpTKymNhijpzs/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/bmFwb2xlb24ubW92/aWUvaW1hZ2VzL3R0/X3BvcnRyYWl0LnBu/Zw" class="video-slider-logo-image">
+      <video id='myVideo' class="img-fluid" autoplay loop muted>
+        <source src="https://firebasestorage.googleapis.com/v0/b/movieflix-fb7c4.appspot.com/o/nepolean.mp4?alt=media&token=c44dabe9-fe94-4aa0-bdfa-78bc375afe67" type="video/mp4" />
+
+      </video>
+      <!-- <div class="carousel-caption d-none d-md-block">
+        <img src="https://imgs.search.brave.com/1YA0zbv2AjaETQxAJhJwp40Pa6-R62P98a0LsR6kpGI/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFyYmllLXRoZW1v/dmllLmNvbS9pbWFn/ZXMvdHRfc21hbGwu/cG5n">
+  
+      </div> -->
+
+      
+
+
+    </div>
+
+    <!-- Single item -->
+    <div class="carousel-item">
+      <img src="https://images.fanart.tv/fanart/the-man-who-knew-infinity-56fd33464e4f2.png" class="video-slider-logo-image">
+      <video id='myVideo' class="img-fluid" autoplay loop muted>
+        <source src="https://firebasestorage.googleapis.com/v0/b/movieflix-fb7c4.appspot.com/o/the%20man%20who%20knew%20infinity.mp4?alt=media&token=cb9eccef-35f8-4640-a293-f6f55f97e41b" type="video/mp4" />
+      </video>
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h5>Second slide label</h5>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p> -->
+
+      </div>
+    </div>
+
+    <!-- Single item -->
+    <div class="carousel-item">
+      <img src="https://imgs.search.brave.com/1YA0zbv2AjaETQxAJhJwp40Pa6-R62P98a0LsR6kpGI/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/YmFyYmllLXRoZW1v/dmllLmNvbS9pbWFn/ZXMvdHRfc21hbGwu/cG5n" class="video-slider-logo-image">
+      <video id='myVideo' class="img-fluid" autoplay loop muted>
+        <source
+          src="https://firebasestorage.googleapis.com/v0/b/movieflix-fb7c4.appspot.com/o/barbie_movie.mp4?alt=media&token=c569e0ff-d448-4c5c-b660-7e3ed429af63"
+          type="video/mp4"
+        />
+      </video>
+      <div class="carousel-caption d-none d-md-block">
+        <!-- <h5>Third slide label</h5>
+        <p>
+          Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+        </p> -->
+      </div>
+    </div>
+  </div>
+  <!-- Inner -->
+
+  <!-- Controls -->
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-mdb-target="#carouselVideoExample"
+    data-mdb-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-mdb-target="#carouselVideoExample"
+    data-mdb-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<!-- Carousel wrapper -->
+
+</html>
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+></script>

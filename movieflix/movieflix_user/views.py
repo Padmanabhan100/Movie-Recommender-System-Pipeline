@@ -13,8 +13,8 @@ from dotenv import load_dotenv
 from pathlib import Path
 import pickle
 from django.views.decorators.csrf import csrf_exempt
+from urllib.parse import unquote
 import traceback
-
 
 # Load the .env file
 load_dotenv()
@@ -52,32 +52,35 @@ def signup(request):
 
 @csrf_exempt
 def post_signup(request):
-    # Check if the request is a post request
-    if request.method == 'POST':
-        # Fetch the email and password form the POST request
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        plan = request.POST.get('plan')
+    try:
+        # Check if the request is a post request
+        if request.method == 'POST':
+            # Fetch the email and password form the POST request
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            plan = request.POST.get('plan')
 
-        # Fetch the months and amount of subscription
-        amount = int(plan.split(":")[0])
-        months = int(plan.split(":")[-1])
+            # Fetch the months and amount of subscription
+            amount = int(plan.split(":")[0])
+            months = int(plan.split(":")[-1])
 
-        # Crete an order context
-        order_context = {
-            "amount": amount*100,
-            "email":email,
-            'password':password,
-            'months':months,
-            "currency": "INR",
-            "payment_capture": '1'
-        }
+            # Crete an order context
+            order_context = {
+                "amount": amount*100,
+                "email":email,
+                'password':password,
+                'months':months,
+                "currency": "INR",
+                "payment_capture": '1'
+            }
 
-        # Set payment data to session
-        request.session['payment_data'] = order_context
+            # Set payment data to session
+            request.session['payment_data'] = order_context
 
-        # Redirect to the sign in page
-        return redirect("/user/payment")
+            # Redirect to the sign in page
+            return redirect("/user/payment")
+    except Exception as e:
+        return render(request,'error/error.html',{"message": e.message})
     
     
 def load_content(landing=False, search=False, movie_query='', personalized_recommendations=[], similar_recommendation=[]):
@@ -99,7 +102,7 @@ def load_content(landing=False, search=False, movie_query='', personalized_recom
             os.remove("all_movies.json")
 
             # Load all the movies from the database
-            movies = database.child("movie").get().val()
+            movies = database.child("movies").get().val()
                 
             # Dump the movies fetched in a varaible
             movies_json = json.dumps(movies, indent=4)
@@ -109,8 +112,11 @@ def load_content(landing=False, search=False, movie_query='', personalized_recom
                 file.write(movies_json)  
     else:
         # Load all the movies from the database
-        movies = database.child("movie").get().val()
-                
+        movies = database.child("movies").get().val()
+
+        # Remove the null values from the json caused due to deletion from dashboard
+        movies = [movie for movie in movies if movie]
+
         # Dump the movies fetched in a varaible
         movies_json = json.dumps(movies, indent=4)
 
@@ -123,7 +129,7 @@ def load_content(landing=False, search=False, movie_query='', personalized_recom
     with open("all_movies.json", "r") as file:
             # Load all movies from the file
             movies = json.load(file)
-               
+                   
     if landing:
         # Empty list to store movies
         action_movies = []
@@ -164,43 +170,49 @@ def load_content(landing=False, search=False, movie_query='', personalized_recom
     
     elif personalized_recommendations:
         # Get all the recommendations movie data
-        recommended_movies = [movie for movie in movies if movie['id'] in personalized_recommendations]
+        recommended_movies = [movie for movie in movies if int(movie['id']) in personalized_recommendations]
 
         # Return the list of recommendations
         return recommended_movies
     
     elif similar_recommendation:
-       # Convert movie id to int
-        movie_id = int(similar_recommendation[0])
+        try:
+        # Convert movie id to int
+            movie_id = int(similar_recommendation[0])
 
-        # Get the distances of all movies for the given movie
-        global similarity, movie_sim_map
+            # Get the distances of all movies for the given movie
+            global similarity, movie_sim_map
 
-        # Get the id of the movie in similarity matrix
-        movie_id = movie_sim_map[movie_sim_map['id'] == movie_id].index[0]
+            # Get the id of the movie in similarity matrix
+            movie_id = movie_sim_map[movie_sim_map['id'] == movie_id].index[0]
 
-        # Get the distances of all the movies for the given movie id
-        distances = similarity[movie_id]
+            # Get the distances of all the movies for the given movie id
+            distances = similarity[movie_id]
 
-        # Sort the distances in descending and get the first N recommendations
-        movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x:x[1])[1:10]
+            # Sort the distances in descending and get the first N recommendations
+            movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x:x[1])[1:10]
 
-        # Create a list of movie ids
-        recommendations = []
+            # Create a list of movie ids
+            recommendations = []
 
-        # Append the id of the movie to the list
-        for idx in movie_list:
-            # Convert similarity ids to movie ids
-            idx = movie_sim_map.iloc[idx[0]]
+            # Append the id of the movie to the list
+            for idx in movie_list:
+                # Convert similarity ids to movie ids
+                idx = movie_sim_map.iloc[idx[0]]
 
-            # Fetch the movie of the recommended id from the database
-            record = database.child('movie').child(f"{idx[0]}").get().val()
+                # Fetch the movie of the recommended id from the database
+                record = database.child('movies').child(f"{idx[0]}").get().val()
 
-            # Add it to recommendations list
-            recommendations.append(record)
+                # Add it to recommendations list
+                recommendations.append(record)
 
-        # Return the list of recommendations
-        return recommendations
+            # Return the list of recommendations
+            return recommendations
+        
+        except Exception as e:
+            print(e)
+            recommendations = False
+            return recommendations
 
     elif search:
         # Empty list to store movies
@@ -214,8 +226,8 @@ def load_content(landing=False, search=False, movie_query='', personalized_recom
             # Get the similarity scores between strings
             sim_score = fuzz.ratio(movie_title.lower(), movie_query.lower())
 
-            # Check if score greter than 0.7 and append to list
-            if sim_score >= 0.99:
+            # Check if score greter than 30 and append to list
+            if sim_score >= 30:
                 movie_and_score = {'movie':movie, 'score':sim_score}
                 movies_list.append(movie_and_score)
 
@@ -275,7 +287,7 @@ def post_signin(request):
             # Signin the user if it exists
             user = auth.sign_in_with_email_and_password(email, password)
         except:
-            return redirect('/user/signin')
+            return render(request, 'user/signin.html', {'signinFailed':True})
         
         
         # Fetch the user_id from the created user object
@@ -297,9 +309,10 @@ def post_signin(request):
 
             # Show the landing page if subscription is not finished
             return redirect('/user/landing')
+        else:
+            return redirect('/user/renew')            
     else:
-        # Take user to landing page
-        return redirect('/user/signin')
+        return render(request, 'error/error.html')
     
 def landing(request):
     try:
@@ -329,7 +342,7 @@ def landing(request):
             user_id = request.session['localId']
 
             # Recommend movies ids
-            recommendations = get_personalized_recommendation(artifacts_dir=artifacts_dir, user_id=3)
+            recommendations = get_personalized_recommendation(artifacts_dir=artifacts_dir, user_id=user_id)
 
             # Fetch the recommended movies from db
             recommendations = load_content(personalized_recommendations=recommendations)
@@ -414,33 +427,37 @@ def payment(request):
         return render(request, 'user/payment.html', {'payment_data': payment_data})
 
     except:
-        return render(request, 'user/signin.html')
+        return render(request, 'user/signin.html') 
 
 @csrf_exempt
 def post_payment(request):
-    # Get email and password from the session
-    email = request.session['payment_data']['email']
-    password = request.session['payment_data']['password']
-    months = request.session['payment_data']['months']
+    try:
+        # Get email and password from the session
+        email = request.session['payment_data']['email']
+        password = request.session['payment_data']['password']
+        months = request.session['payment_data']['months']
 
-    # Delete the payment session
-    del request.session['payment_data']
+        # Delete the payment session
+        del request.session['payment_data']
 
-    # Create a new user object
-    user = auth.create_user_with_email_and_password(email, password)
+        # Create a new user object
+        user = auth.create_user_with_email_and_password(email, password)
 
-    # Fetch the user_id from the created user object
-    user_id = user['localId']
+        # Fetch the user_id from the created user object
+        user_id = user['localId']
 
-    # Creating a dictionary to push the data to the firebase database
-    data = {"email": email, 'password': password, "months":months, 'date':str(datetime.datetime.now().date())}
+        # Creating a dictionary to push the data to the firebase database
+        data = {"email": email, 'password': password, "months":months, 'date':str(datetime.datetime.now().date())}
 
-    # Store to database
-    database.child("users").child(user_id).set(data)
+        # Store to database
+        database.child("users").child(user_id).set(data)
 
-    # Redirect to signin page
-    return redirect('/user/signin')
-
+        # Redirect to signin page
+        return redirect('/user/signin')
+    
+    except Exception as e:
+        message = "The email either already exists, or check if your password length is greater than 8"
+        return render(request,"error/error.html",{'error_message':"message"})
 
 def get_personalized_recommendation(artifacts_dir=None, user_id=None, top_n=5):
     # Load the model
@@ -452,52 +469,40 @@ def get_personalized_recommendation(artifacts_dir=None, user_id=None, top_n=5):
    
    # Read the ratings data and movie meta data as dataframe
     ratings_path = os.path.join(artifacts_dir,"raw_local_data_dir", "ratings.csv")
-    movie_md_data_path = os.path.join(artifacts_dir, "raw_local_data_dir", "movies_md.csv")
     ratings = pd.read_csv(ratings_path)
-    movie_md = pd.read_csv(movie_md_data_path,low_memory=False)
 
-    # Select ratings data and metadata with vote count > 55
-    movie_md = movie_md[movie_md['vote_count']>55][['id','title']]
-
-    # IDs of movies with count more than 55
-    movie_ids = [int(x) for x in movie_md['id'].values]
-
-    # Select ratings of movies with more than 55 counts
-    ratings = ratings[ratings['movieId'].isin(movie_ids)]
-
-    # Reset Index
-    ratings.reset_index(inplace=True, drop=True)
-    
-    # Inititlize a reader object
-    #reader = Reader(line_format="user item rating", sep=',', rating_scale=(1, 5), skip_lines=1)
-    
-    # Inititlize a dataset object form dataframe
-    #data = Dataset.load_from_df(ratings[['userId', 'movieId', 'rating']], reader=reader)
-    
     # creating an empty list to store the recommended product ids
     recommendations = []
     
     # creating an user item interactions matrix 
     user_movie_interactions_matrix = ratings.pivot(index='userId', columns='movieId', values='rating')
     
-    # extracting those product ids which the user_id has not interacted yet
-    non_interacted_movies = user_movie_interactions_matrix.loc[user_id][user_movie_interactions_matrix.loc[user_id].isnull()].index.tolist()
+    # If user not rated movies then can result in index error
+    try:
+        # extracting those product ids which the user_id has not interacted yet
+        non_interacted_movies = user_movie_interactions_matrix.loc[user_id][user_movie_interactions_matrix.loc[user_id].isnull()].index.tolist()
+        
+        # looping through each of the product ids which user_id has not interacted yet
+        for item_id in non_interacted_movies:
+            
+            # predicting the ratings for those non interacted product ids by this user
+            est = model.predict(user_id, item_id).est
+
+            print(est)
+            
+            recommendations.append((item_id, est))
+
+        # sorting the predicted ratings in descending order
+        recommendations.sort(key=lambda x: x[1], reverse=True)
+
+        # Convert to pure list with only recommendation id
+        recommendations = [int(item[0]) for item in recommendations]
+
+        print(recommendations, "recommendations")
     
-    # looping through each of the product ids which user_id has not interacted yet
-    for item_id in non_interacted_movies:
-        
-        # predicting the ratings for those non interacted product ids by this user
-        est = model.predict(user_id, item_id).est
-        
-        # appending the predicted ratings
-        movie_id = movie_md[movie_md['id']==str(item_id)]['id'].values[0]
-        recommendations.append((movie_id, est))
-
-    # sorting the predicted ratings in descending order
-    recommendations.sort(key=lambda x: x[1], reverse=True)
-
-    # Convert to pure list with only recommendation id
-    recommendations = [int(item[0]) for item in recommendations]
+    except Exception as e:
+        recommendations = []
+        print(e, "error here")
 
     # Print the recommendations
     return recommendations[:top_n]
@@ -536,6 +541,7 @@ def get_recommendations(movie_id):
     # Return the list of recommendations
     return recommendations
     
+@csrf_exempt
 def video_player(request):
     # Get the movie data
     movie_id = str(request.GET.get('id'))
@@ -543,6 +549,8 @@ def video_player(request):
     movie_cast = request.GET.get('cast')
     movie_path = request.GET.get('movie_path')
     movie_rating = request.GET.get('rating')
+    poster_url = request.GET.get('poster_url')
+    overview = request.GET.get('overview')
 
     # Get user id stored in session variables
     user_id = request.session['localId']
@@ -551,7 +559,7 @@ def video_player(request):
     recommendations = load_content(similar_recommendation=[movie_id])
 
     # Create a movie data dictionary
-    movie_data = {'id':movie_id ,'title': movie_title, 'cast': movie_cast, 'movie_path': movie_path}
+    movie_data = {'id':movie_id ,'title': movie_title, 'cast': movie_cast, 'movie_path': movie_path, "poster_url":poster_url, "overview": overview}
 
 
     # If rating has been given
@@ -641,9 +649,28 @@ def renew_payment_done(request):
     # Get the user's id from the session varaible
     user_id = request.session['localId']
 
+    # Retrieve the current value of "months"
+    current_months = database.child("users").child(user_id).child("months").get().val()
+
+    # Increment the value of "months" by the desired amount
+    new_months = current_months + months
+
+    # Update the "months" field with the new value
+    database.child("users").child(user_id).update({"months": new_months})
+
+
+    # Get current date
+    current_datetime = datetime.datetime.now()
+
+    formatted_date = current_datetime.strftime("%Y-%m-%d")
+
+    print(formatted_date)
+    
     # Update the data in db
-    database.child("users").child(user_id).update({"months":months})
+    database.child("users").child(user_id).update({"date":formatted_date})
 
     # Return to landing page
     return redirect('/user/landing')
 
+def custom_404(request, exception):
+    return render(request,'error/error.html', status=404)

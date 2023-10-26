@@ -16,7 +16,10 @@
     <div class="navbar">
       <div class="navbar-container">
         <!-- <a href="/user/landing"><div class="logo-container"><h1 class="logo">EasyProduce</h1></div></a> -->
+        
         <a href="/user/landing"><div class="logo-container"><img src="{% static 'image/title_img.png' %}" width="150" height="78" alt="EasyProduce"/></div></a>
+
+
         <div class="menu-container">
           <ul class="menu-list">
             <li class="menu-list-item active">Home</li>
@@ -27,7 +30,8 @@
           </ul>
         </div>
 
-        <!-- Search FORM -->
+        <div class="search-div">
+          <!-- Search FORM -->
         <form action="/user/search/" method="GET" class="searchbar">
           {% csrf_token %}
           <input type="text" placeholder="search" name="searched_movie_title" id="searched_movie_title" required>
@@ -36,29 +40,36 @@
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
+        </div>
+        
 
         <div class="profile-container">
-          <img
+
+          <!-- <div>
+            <img
             class="profile-picture"
             src="{% static 'image/profile_picture1.jpg' %}"
             alt=""
           />
+          </div> -->
+          
 
           <!-- Logout button -->
           <form action="/user/logout/" method="POST">
             {% csrf_token %}
-            <input type="submit" value="Logout" />
+            <input type="submit" class='btn btn-light' value="Logout" />
           </form>
 
-          <div class="profile-text-container">
+          <!-- <div class="profile-text-container">
             <span class="profile-text">Profile</span>
             <i class="fas fa-caret-down"></i>
           </div>
+
           <div class="toggle">
             <i class="fa-solid fa-moon toggle-icon"></i>
             <i class="fa-solid fa-sun toggle-icon"></i>
             <div class="toggle-ball"></div>
-          </div>
+          </div> -->
         </div>
 
        

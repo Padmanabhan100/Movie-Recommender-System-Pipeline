@@ -15,55 +15,43 @@
     ></script>
   </head>
   <body>
-    <div class="container">
+    <div class="outer-container">
+
+      <div class="video-carousal-banner">
+        {% include 'user/video_slider.html' %} 
+      </div>
+      
       <div class="content-container">
-        <div
-          class="featured-content"
-          style="
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #151515),
-              url('image/feature_img3.webp');
-          "
-        >
-          <img
-            class="featured-title"
-            src="{% static 'image/feature_title4.png' %}"
-            alt=""
-          />
-          <p class="featured-desc">
-            A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.
+        {% if recommendations %}
+          <!-- Personalized Recommended Movies -->
+          <div class="movie-list-container">
+            <h1 class="movie-list-title">RECOMMENDED MOVIES</h1>
+            <div class="movie-list-wrapper">
+              <div class="movie-list">
+                {% for movie in recommendations %}
+                  <a
+                    href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}&poster_url={{ movie.poster_url }}&overview={{ movie.overview}}"
+                  >
+                    <div class="movie-list-item">
+                      <img
+                        class="movie-list-item-img"
+                        src="{{ movie.poster_url }}"
+                        alt=""
+                      />
+                      <span class="movie-list-item-title">{{ movie.title }}</span>
+                      <p class="movie-list-item-desc">
+                        {{ movie.overview|slice:":100"}}...
+                      </p>
+                      <button class="movie-list-item-button">Watch</button>
+                    </div>
+                  </a>
 
-          </p>
-          <button class="featured-button">WATCH NOW</button>
-        </div>
-
-        <!-- Personalized Recommended Movies -->
-        <div class="movie-list-container">
-          <h1 class="movie-list-title">RECOMMENDED MOVIES</h1>
-          <div class="movie-list-wrapper">
-            <div class="movie-list">
-              {% for movie in recommendations %}
-              <a
-                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
-              >
-                <div class="movie-list-item">
-                  <img
-                    class="movie-list-item-img"
-                    src="{% static 'image/movie-img1.webp' %}"
-                    alt=""
-                  />
-                  <span class="movie-list-item-title">{{ movie.title }}</span>
-                  <p class="movie-list-item-desc">
-                    {{ movie.overview|slice:":100"}}...
-                  </p>
-                  <button class="movie-list-item-button">Watch</button>
-                </div>
-              </a>
-
-              {% endfor %}
+                {% endfor %}
             </div>
             <i class="fas fa-chevron-right arrow"></i>
           </div>
         </div>
+        {% endif %}
 
         <!-- New Release Container -->
         <div class="movie-list-container">
@@ -72,12 +60,12 @@
             <div class="movie-list">
               {% for movie in movies_by_genre.action %}
               <a
-                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}&poster_url={{ movie.poster_url }}&overview={{ movie.overview}}"
               >
                 <div class="movie-list-item">
                   <img
                     class="movie-list-item-img"
-                    src="{% static 'image/movie-img1.webp' %}"
+                    src="{{ movie.poster_url }}"
                     alt=""
                   />
                   <span class="movie-list-item-title">{{ movie.title }}</span>
@@ -101,12 +89,12 @@
             <div class="movie-list">
               {% for movie in movies_by_genre.comedy %}
               <a
-                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}&poster_url={{ movie.poster_url }}&overview={{ movie.overview}}"
               >
                 <div class="movie-list-item">
                   <img
                     class="movie-list-item-img"
-                    src="{% static 'image/movie-img1.webp' %}"
+                    src="{{ movie.poster_url }}"
                     alt=""
                   />
                   <span class="movie-list-item-title">{{ movie.title }}</span>
@@ -121,23 +109,29 @@
             <i class="fas fa-chevron-right arrow"></i>
           </div>
         </div>
+        <a href="/user/movie_player/?id=10&title=Interstellar&movie_path=https://firebasestorage.googleapis.com/v0/b/movieflix-fb7c4.appspot.com/o/interstellar.mp4?alt=media&poster_url=https://firebasestorage.googleapis.com/v0/b/movieflix-fb7c4.appspot.com/o/interstellar.jpg?alt=media&overview=In Earth's future, a global crop blight and second Dust Bowl are slowly rendering the planet uninhabitable. Professor Brand (Michael Caine), a brilliant NASA physicist, is working on plans to save mankind by transporting Earth's population to a new home via a wormhole. But first, Brand must send former NASA pilot Cooper (Matthew McConaughey) and a team of researchers through the wormhole and across the galaxy to find out which of three planets could be mankind's new home">
         <div
           class="featured-content"
           style="
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #151515),
-              url('feature_img11.jpg');
+              url('{% static 'image/feature_img11.jpg' %}');
           "
         >
+          >
           <img
             class="featured-title"
             src="{% static 'image/feature_title6.png' %}"
             alt=""
           />
           <p class="featured-desc">
-            When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.
+            When Earth becomes uninhabitable in the future, a farmer and ex-NASA
+            pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a
+            team of researchers, to find a new planet for humans.
           </p>
           <button class="featured-button">WATCH NOW</button>
         </div>
+
+        </a>
 
         <!-- New Release container -->
         <div class="movie-list-container">
@@ -146,12 +140,12 @@
             <div class="movie-list">
               {% for movie in movies_by_genre.romance %}
               <a
-                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}&poster_url={{ movie.poster_url }}&overview={{ movie.overview}}"
               >
                 <div class="movie-list-item">
                   <img
                     class="movie-list-item-img"
-                    src="{% static 'image/movie-img1.webp' %}"
+                    src="{{ movie.poster_url }}"
                     alt=""
                   />
                   <span class="movie-list-item-title">{{ movie.title }}</span>
@@ -175,12 +169,12 @@
             <div class="movie-list">
               {% for movie in movies_by_genre.animation %}
               <a
-                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}"
+                href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}&poster_url={{ movie.poster_url }}&overview={{ movie.overview}}"
               >
                 <div class="movie-list-item">
                   <img
                     class="movie-list-item-img"
-                    src="{% static 'image/movie-img1.webp' %}"
+                    src="{{ movie.poster_url }}"
                     alt=""
                   />
                   <span class="movie-list-item-title">{{ movie.title }}</span>

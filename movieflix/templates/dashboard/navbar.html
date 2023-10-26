@@ -1,0 +1,27 @@
+<html>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard_navbar.css' %}">
+    <head>
+        
+    </head>
+
+    <body>
+        <div class="navbar">
+            <div class="navbar-container">
+
+                <!-- Logo -->
+                <div class="logo-container"><h1 class="logo">MovieFlix</h1></div>
+                
+                {% if not upload_movie_page %}
+                    <!-- Searchbar form -->
+                    <form action="" class="searchbar">
+                        <input type="text" placeholder="search" name="movie_name">
+                        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                {% endif %}
+                
+            </div>
+        </div>
+
+    </body>
+</html>

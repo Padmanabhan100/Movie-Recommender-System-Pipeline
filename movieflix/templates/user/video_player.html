@@ -9,78 +9,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EasyProduce</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video_player.css' %}">
     <link rel="stylesheet" href="{% static 'css/ratings.css' %}">
     <script src="https://kit.fontawesome.com/20f31187f2.js" crossorigin="anonymous"></script>
 </head>
 <body>
     
         <div class="container"> 
-            <h1>{{ movie_data.title }}</h1>
-            <video width="1080" height="720" controls>
-                <source src="{{ movie_data.movie_path }}" type="video/mp4">
-            </video> 
+            <!-- Video Player -->
+            <div id="video-container">
+                <video id="video" controls>
+                    <source src="{{ movie_data.movie_path }}" type="video/mp4">
+                </video> 
+            </div>
+            
+            <!-- Movie Data Container -->
+            <div class="movie-details">
+                <!-- Poster Div -->
+                <div class="movie-poster-div">
+                    <img id='movie-poster' src="{{ movie_data.poster_url }}" alt="Image Not Available">
+                </div>
 
-            <h3>Please Drop Your Ratings</h3>
+                <!-- Movie Details Div -->
+                <div class="movie-metadata">
+                    <!-- Movie Header Div -->
+                    <div class="movie-header-div">
+                        <h1>{{ movie_data.title }}</h1>
 
-            <div class="rate">
-                <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=5">
-                    <input type="radio" id="star5" name="rate" value="5" />
-                    <label for="star5" title="text">5 stars</label>
-                </a>
-                
-                <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=4">
-                    <input type="radio" id="star4" name="rate" value="4" />
-                    <label for="star4" title="text">4 stars</label>
-                </a>
+                        <!-- Ratings container -->
+                        <!-- <div class="rate">
+                            <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=5">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                            </a>
+                            
+                            <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=4">
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="text">4 stars</label>
+                            </a>
 
-                <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=3">
-                    <input type="radio" id="star3" name="rate" value="3" />
-                    <label for="star3" title="text">3 stars</label>
-                </a>
-
-
-                <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=2">
-                    <input type="radio" id="star2" name="rate" value="2" />
-                    <label for="star2" title="text">2 stars</label>
-                </a>
+                            <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=3">
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                            </a>
 
 
-                <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=1">
-                    <input type="radio" id="star1" name="rate" value="1" />
-                    <label for="star1" title="text">1 star</label>
-                </a>
-                
-              </div>
-        </div>
+                            <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=2">
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                            </a>
 
-        <!-- Recommended movies -->
-        <div>
-            <div class="movie-list-container">
-                <h1 class="movie-list-title" style="color:white">Recommended Movies</h1>
-                <div class="movie-list-wrapper">
-                    <div class="movie-list">
 
-                        {% for movie in recommendations %}
-                        <a href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}">
-                            <div class="movie-list-item">
-                                <img class="movie-list-item-img" src="{% static 'image/movie-img1.webp' %}" alt="">
-                                <span class="movie-list-item-title">{{ movie.title }}</span>
-                                <p class="movie-list-item-desc">{{ movie.overview|slice:":100"}}...</p>
-                                    <button class="movie-list-item-button">Watch</button>
-                            </div>
-                        </a>
+                            <a href="/user/movie_player/?id={{ movie_data.id }}&title={{ movie_data.title }}&cast={{ movie_data.cast }}&movie_path={{ movie_data.movie_path }}&rating=1">
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">1 star</label>
+                            </a>
+                            
+                        </div> -->
+                        
+                            <form class="rate" method="GET" action="www.google.com">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">1 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="text">2 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">4 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">5 star</label>
 
-                        {% endfor %}
+                                <input type="submit" value="Rate Movie"/>
+                            </form>
                     </div>
-                    <i class="fas fa-chevron-right arrow"></i>
+
+                    <!-- Script to send get request -->
+
+                    
+
+                    <!-- Movie Description Div-->
+                    <div class="movie-description-div">
+                        <p>{{ movie_data.overview }}</p>
+                    </div>
                 </div>
             </div>
+
+            
         </div>
+
+        {% if recommendations == true %}
+            <!-- Recommrecommendations-->
+            <div>
+                <div class="movie-list-container">
+                    <h1 class="movie-list-title" style="color:white">Recommended Movies</h1>
+                    <div class="movie-list-wrapper">
+                        <div class="movie-list">
+
+                            {% for movie in recommendations %}
+                            <a href="/user/movie_player/?id={{ movie.id }}&title={{ movie.title }}&cast={{ movie.cast }}&movie_path={{ movie.movie_path }}&poster_url={{ movie.poster_url }}&overview={{ movie.overview }}">
+                                <div class="movie-list-item">
+                                    <img class="movie-list-item-img" src="{% static 'image/movie-img1.webp' %}" alt="">
+                                    <span class="movie-list-item-title">{{ movie.title }}</span>
+                                    <p class="movie-list-item-desc">{{ movie.overview|slice:":100"}}...</p>
+                                        <button class="movie-list-item-button">Watch</button>
+                                </div>
+                            </a>
+
+                            {% endfor %}
+                        </div>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         
         {% include 'user/footer.html' %}
 
-        
+        <script>
+            const radioButtons = document.querySelectorAll('input[type="radio"]');
+    
+    radioButtons.forEach((radio) => {
+        radio.addEventListener('click', () => {
+            const selectedRating = radio.value;
+            const movieData = {
+                id: "{{ movie_data.id }}",
+                title: "{{ movie_data.title }}",
+                cast: "{{ movie_data.cast }}",
+                movie_path: "{{ movie_data.movie_path }}",
+            };
+            
+            const queryString = `id=${movieData.id}&title=${movieData.title}&cast=${movieData.cast}&movie_path=${movieData.movie_path}&rating=${selectedRating}`;
+            
+            // Construct the URL for the GET request
+            const url = "/user/movie_player/?" + queryString;
+            
+            // Send the GET request
+            fetch(url)
+                .then((response) => {
+                    console.log(response);
+                    // Handle the response if needed
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        });
+    });
+        </script>
         <script src="{% static 'script/app.js' %}"></script>
 </body>
 </html>
+

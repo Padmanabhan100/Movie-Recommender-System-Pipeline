@@ -21,6 +21,17 @@ arrows.forEach((arrow,i)=>{
         
 });
 
+    $(document).ready(function() {
+        // Show the alert message
+        $("#alertMessage").show();
+    
+        // Hide the alert message after 3 seconds (3000 milliseconds)
+        setTimeout(function() {
+            $("#alertMessage").hide();
+        }, 3000);
+    });
+
+
 const ball = document.querySelector(".toggle-ball");
 const items = document.querySelectorAll(".container, .movie-list-title, .navbar, .navbar-container, .sidebar, .left-menu-icon, .left-menu-icon-bottom, .searchbar, .toggle ");
 
@@ -31,3 +42,6 @@ ball.addEventListener("click",()=>{
     ball.classList.toggle("active")
 })
 
+
+
+    

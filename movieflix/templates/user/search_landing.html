@@ -21,9 +21,9 @@
                         <div class="movie-list">
 
                             {% for movie in page_obj %}
-                            <a href="/user/movie_player/?id={{ movie.movie.id }}&title={{ movie.movie.title }}&cast={{ movie.movie.cast }}&movie_path={{ movie.movie.movie_path }}">
+                            <a href="/user/movie_player/?id={{ movie.movie.id }}&title={{ movie.movie.title }}&cast={{ movie.movie.cast }}&movie_path={{ movie.movie.movie_path }}&poster_url={{ movie.movie.poster_url }}&overview={{ movie.movie.overview }}">
                                 <div class="movie-list-item">
-                                    <img class="movie-list-item-img" src="{% static 'image/movie-img1.webp' %}" alt="">
+                                    <img class="movie-list-item-img" src="{{ movie.movie.poster_url }}" alt="">
                                     <span class="movie-list-item-title">{{ movie.movie.title }}</span>
                                     <p class="movie-list-item-desc">{{ movie.movie.overview|slice:":100"}}...</p>
                                         <button class="movie-list-item-button">Watch</button>

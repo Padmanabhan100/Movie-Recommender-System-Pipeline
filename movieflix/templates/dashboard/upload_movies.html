@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'dashboard/navbar.html' %}
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/upload_movie.css' %}">
+    <script src="https://kit.fontawesome.com/20f31187f2.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+   
+    <div class="container">
+    <form method="post" action="/dashboard/post_upload/" enctype="multipart/form-data">
+        <div class="container1">
+        <h2 class="h1">UPLOAD MOVIE DETAILS</h2><br><br>
+        </div>
+
+        <div class="container2">
+        
+        <!--<label for="title" class="t1">Title:</label>-->
+        <input type="text" name="title" id="title" required class="inbox" id="l1" placeholder="Enter Title"><br><br>
+
+        <!--<label for="original_title" class="t1">Original Title:</label>-->
+        <input type="text" name="original_title" id="original_title" class="inbox" id="l2" placeholder="Original Title"><br><br>
+
+        <!--<label for="overview" class="t1">Overview:</label><br>-->
+        <textarea name="overview" id="overview" rows="4" cols="50" class="inbox2" id="l3" placeholder="Overview"></textarea><br><br>
+
+        <!--<label for="cast" class="t1">Cast:</label>-->
+        <input type="text" name="cast" id="cast" class="inbox" id="l4" placeholder="Cast (Space-Seperated)"><br><br>
+
+        <!--<label for="genres" class="t1">Genres:</label>-->
+        <input type="text" name="genres" id="genres" class="inbox" id="l5" placeholder="Genres (Space-Seperated)"><br><br>
+
+        <!--<label for="keywords" class="t1">Keywords:</label>-->
+        <input type="text" name="keywords" id="keywords" class="inbox" id="l6" placeholder="Keywords (Space-Seperated)"><br><br>
+
+        <!--<label for="id" class="t1">ID:</label>-->
+        <input type="text" name="id" id="id" class="inbox" id="l7" placeholder="ID"><br><br><br>
+
+        <div class="container3">
+
+        <div class="container4">
+        <label for="movie_path" class="t1">Movie File:</label><br>
+        <input type="file" name="movie_path" id="movie_path" accept=".mp4" required class="up"><br><br>
+        </div>
+
+        <div class="container5">
+        <label for="poster_path" class="t1">Poster Image:</label><br>
+        <input type="file" name="poster_path" id="poster_path" accept="image/*" class="up"><br><br>
+        </div>
+        </div>
+
+        <input type="submit" value="UPLOAD MOVIE" class="btn"><br><br><br>
+        </div>
+    </form>
+    </div>
+</body>
+</html>
